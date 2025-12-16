@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wowdash - Bootstrap 5 Admin Dashboard HTML Template</title>
+  <title>Desh Courier</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
   <!-- remix icon font css  -->
   <link rel="stylesheet" href="assets/css/remixicon.css">
@@ -237,30 +237,14 @@
         </ul>
       </li>
       <li class="sidebar-menu-group-title">Application</li>
-      <li>
-        <a href="email.html">
-          <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
-          <span>Email</span>
-        </a>
-      </li>
+      
       <li>
         <a href="chat-message.html">
           <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
           <span>Chat</span>
         </a>
       </li>
-      <li>
-        <a href="calendar-main.html">
-          <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
-          <span>Calendar</span>
-        </a>
-      </li>
-      <li>
-        <a href="kanban.html">
-          <iconify-icon icon="material-symbols:map-outline" class="menu-icon"></iconify-icon>
-          <span>Kanban</span>
-        </a>
-      </li>
+      
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="hugeicons:invoice-03" class="menu-icon"></iconify-icon>
@@ -282,57 +266,10 @@
           </li>
         </ul>
       </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <i class="ri-robot-2-line text-xl me-14 d-flex w-auto"></i>
-          <span>Ai Application</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Text
-              Generator</a>
-          </li>
-          <li>
-            <a href="code-generator.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Code
-              Generator</a>
-          </li>
-          <li>
-            <a href="image-generator.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Image
-              Generator</a>
-          </li>
-          <li>
-            <a href="voice-generator.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Voice
-              Generator</a>
-          </li>
-          <li>
-            <a href="video-generator.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Video
-              Generator</a>
-          </li>
-        </ul>
-      </li>
+    
 
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <i class="ri-btc-line text-xl me-14 d-flex w-auto"></i>
-          <span>Crypto Currency</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="wallet.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Wallet</a>
-          </li>
-          <li>
-            <a href="marketplace.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              Marketplace</a>
-          </li>
-          <li>
-            <a href="marketplace-details.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              Marketplace Details</a>
-          </li>
-          <li>
-            <a href="portfolio.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Portfolios</a>
-          </li>
-        </ul>
-      </li>
+      
+      
 
       <li class="sidebar-menu-group-title">UI Elements</li>
 
@@ -394,9 +331,7 @@
           <li>
             <a href="list.html"><i class="ri-circle-fill circle-icon text-red w-auto"></i> List</a>
           </li>
-          <li>
-            <a href="calendar.html"><i class="ri-circle-fill circle-icon text-yellow w-auto"></i> Calendar</a>
-          </li>
+          
           <li>
             <a href="radio.html"><i class="ri-circle-fill circle-icon text-orange w-auto"></i> Radio</a>
           </li>
@@ -514,24 +449,6 @@
 
       <li class="sidebar-menu-group-title">Application</li>
 
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="simple-line-icons:vector" class="menu-icon"></iconify-icon>
-          <span>Authentication</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="sign-in.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Sign In</a>
-          </li>
-          <li>
-            <a href="sign-up.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Sign Up</a>
-          </li>
-          <li>
-            <a href="forgot-password.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Forgot
-              Password</a>
-          </li>
-        </ul>
-      </li>
 
       <li class="dropdown">
         <a href="javascript:void(0)">
@@ -582,73 +499,17 @@
           </li>
         </ul>
       </li>
-      <li>
-        <a href="testimonials.html">
-          <i class="ri-star-line text-xl me-14 d-flex w-auto"></i>
-          <span>Testimonial</span>
-        </a>
-      </li>
-      <li>
-        <a href="faq.html">
-          <iconify-icon icon="mage:message-question-mark-round" class="menu-icon"></iconify-icon>
-          <span>FAQs</span>
-        </a>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="streamline:straight-face" class="menu-icon"></iconify-icon>
-          <span>Error Pages</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="bad-request.html"><i class="ri-circle-fill circle-icon text-danger-600 w-auto"></i> Bad Request</a>
-          </li>
-          <li>
-            <a href="forbidden.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Forbidden</a>
-          </li>
-          <li>
-            <a href="error.html"><i class="ri-circle-fill circle-icon text-warning-600 w-auto"></i> 404 Page</a>
-          </li>
-          <li>
-            <a href="internal-server.html"><i class="ri-circle-fill circle-icon text-primary-main w-auto"></i> Internal
-              Server</a>
-          </li>
-          <li>
-            <a href="service-unavailable.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-              Service Unavailable</a>
-          </li>
-        </ul>
-      </li>
+      
+      
+      
       <li>
         <a href="terms-condition.html">
           <iconify-icon icon="octicon:info-24" class="menu-icon"></iconify-icon>
           <span>Terms & Conditions</span>
         </a>
       </li>
-      <li>
-        <a href="coming-soon.html">
-          <i class="ri-rocket-line text-xl me-14 d-flex w-auto"></i>
-          <span>Coming Soon</span>
-        </a>
-      </li>
-      <li>
-        <a href="access-denied.html">
-          <i class="ri-folder-lock-line text-xl me-14 d-flex w-auto"></i>
-          <span>Access Denied</span>
-        </a>
-      </li>
-      <li>
-        <a href="maintenance.html">
-          <i class="ri-hammer-line text-xl me-14 d-flex w-auto"></i>
-          <span>Maintenance</span>
-        </a>
-      </li>
-      <li>
-        <a href="blank-page.html">
-          <i class="ri-checkbox-multiple-blank-line text-xl me-14 d-flex w-auto"></i>
-          <span>Blank Page</span>
-        </a>
-      </li>
+      
+      
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
