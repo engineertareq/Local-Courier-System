@@ -156,10 +156,10 @@
     <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
   </button>
   <div>
-    <a href="index.html" class="sidebar-logo">
-      <img src="assets/images/logo.png" alt="site logo" class="light-logo">
-      <img src="assets/images/logo-light.png" alt="site logo" class="dark-logo">
-      <img src="assets/images/logo-icon.png" alt="site logo" class="logo-icon">
+    <a href="index.php" class="sidebar-logo">
+      <img src="assets/images/desh_courier-removebg-preview.png" alt="site logo" class="light-logo">
+      <img src="assets/images/desh_courier-removebg-preview.png" alt="site logo" class="dark-logo">
+      <img src="assets/images/desh_courier-removebg-preview.png" alt="site logo" class="logo-icon">
     </a>
   </div>
   <div class="sidebar-menu-area">
@@ -171,7 +171,7 @@
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="index.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> AI</a>
+            <a href="index.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Analytics</a>
           </li>
           <li>
             <a href="index-2.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
@@ -185,60 +185,13 @@
           <li>
             <a href="index-5.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Investment</a>
           </li>
-          <li>
-            <a href="index-6.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> LMS</a>
-          </li>
-          <li>
-            <a href="index-7.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> NFT & Gaming</a>
-          </li>
-          <li>
-            <a href="index-8.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Medical</a>
-          </li>
-          <li>
-            <a href="index-9.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> Analytics</a>
-          </li>
-          <li>
-            <a href="index-10.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> POS & Inventory
-            </a>
-          </li>
-          <li>
-            <a href="index-11.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Finance &
-              Banking </a>
-          </li>
-          <li>
-            <a href="index-12.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Booking
-              System</a>
-          </li>
-          <li>
-            <a href="index-13.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Help Desk</a>
-          </li>
-          <li>
-            <a href="index-14.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Podcast </a>
-          </li>
-          <li>
-            <a href="index-15.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> Project Management
-            </a>
-          </li>
-          <li>
-            <a href="index-16.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Call Center</a>
-          </li>
-          <li>
-            <a href="index-17.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Sass</a>
-          </li>
-          <li>
-            <a href="index-18.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Sales</a>
-          </li>
-          <li>
-            <a href="index-19.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Real Estate </a>
-          </li>
-          <li>
-            <a href="index-20.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Shipment </a>
-          </li>
+          
         </ul>
       </li>
       <li class="dropdown">
         <a href="javascript:void(0)">
-          <iconify-icon icon="hugeicons:invoice-03" class="menu-icon"></iconify-icon>
+          <iconify-icon icon="mdi:courier-fast" class="menu-icon"></iconify-icon>
+          
           <span>Shipments</span>
         </a>
         <ul class="sidebar-submenu">
@@ -246,14 +199,59 @@
             <a href="create_parcel.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Create Shipment</a>
           </li>
           <li>
-            <a href="invoice-preview.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+            <a href="shipment_list.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
               All Shipment</a>
           </li>
           <li>
             <a href="invoice-add.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Assign Rider</a>
           </li>
           <li>
-            <a href="invoice-edit.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Edit</a>
+            <a href="update_status.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Shipment Status</a>
+          </li>
+          <li>
+            <a href="track.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Shipment Tracking</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="streamline-freehand:receipt-view-pricing" class="menu-icon"></iconify-icon>
+          <span>Packages</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="add_package.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+              Add New Package</a>
+          </li>
+          <li>
+            <a href="packages.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> All Package</a>
+          </li>
+          
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+          <span>Users</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="users-list.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
+          </li>
+          <li>
+            <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users Grid</a>
+          </li>
+          <li>
+            <a href="add-user.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
+          </li>
+          <li>
+            <a href="view-profile.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> View
+              Profile</a>
+          </li>
+          <li>
+            <a href="users-role-permission.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> User
+              Role & Permission</a>
           </li>
         </ul>
       </li>
@@ -274,17 +272,7 @@
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="invoice-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> List</a>
-          </li>
-          <li>
-            <a href="invoice-preview.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              Preview</a>
-          </li>
-          <li>
-            <a href="invoice-add.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add new</a>
-          </li>
-          <li>
-            <a href="invoice-edit.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Edit</a>
+            <a href="invoice-list.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> List</a>
           </li>
         </ul>
       </li>
@@ -295,98 +283,6 @@
 
       <li class="sidebar-menu-group-title">UI Elements</li>
 
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="solar:document-text-outline" class="menu-icon"></iconify-icon>
-          <span>Components</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="typography.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Typography</a>
-          </li>
-          <li>
-            <a href="colors.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Colors</a>
-          </li>
-          <li>
-            <a href="button.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Button</a>
-          </li>
-          <li>
-            <a href="dropdown.html"><i class="ri-circle-fill circle-icon text-lilac-600 w-auto"></i> Dropdown</a>
-          </li>
-          <li>
-            <a href="alert.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Alerts</a>
-          </li>
-          <li>
-            <a href="card.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Card</a>
-          </li>
-          <li>
-            <a href="carousel.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Carousel</a>
-          </li>
-          <li>
-            <a href="avatar.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Avatars</a>
-          </li>
-          <li>
-            <a href="progress.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Progress bar</a>
-          </li>
-          <li>
-            <a href="tabs.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Tab & Accordion</a>
-          </li>
-          <li>
-            <a href="pagination.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Pagination</a>
-          </li>
-          <li>
-            <a href="badges.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Badges</a>
-          </li>
-          <li>
-            <a href="tooltip.html"><i class="ri-circle-fill circle-icon text-lilac-600 w-auto"></i> Tooltip &
-              Popover</a>
-          </li>
-          <li>
-            <a href="videos.html"><i class="ri-circle-fill circle-icon text-cyan w-auto"></i> Videos</a>
-          </li>
-          <li>
-            <a href="star-rating.html"><i class="ri-circle-fill circle-icon text-indigo w-auto"></i> Star Ratings</a>
-          </li>
-          <li>
-            <a href="tags.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> Tags</a>
-          </li>
-          <li>
-            <a href="list.html"><i class="ri-circle-fill circle-icon text-red w-auto"></i> List</a>
-          </li>
-          
-          <li>
-            <a href="radio.html"><i class="ri-circle-fill circle-icon text-orange w-auto"></i> Radio</a>
-          </li>
-          <li>
-            <a href="switch.html"><i class="ri-circle-fill circle-icon text-pink w-auto"></i> Switch</a>
-          </li>
-          <li>
-            <a href="image-upload.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Upload</a>
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="heroicons:document" class="menu-icon"></iconify-icon>
-          <span>Forms</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="form.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Input Forms</a>
-          </li>
-          <li>
-            <a href="form-layout.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Input
-              Layout</a>
-          </li>
-          <li>
-            <a href="form-validation.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Form
-              Validation</a>
-          </li>
-          <li>
-            <a href="wizard.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Form Wizard</a>
-          </li>
-        </ul>
-      </li>
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="mingcute:storage-line" class="menu-icon"></iconify-icon>
@@ -426,31 +322,7 @@
           <span>Widgets</span>
         </a>
       </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-          <span>Users</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
-          </li>
-          <li>
-            <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users Grid</a>
-          </li>
-          <li>
-            <a href="add-user.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
-          </li>
-          <li>
-            <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> View
-              Profile</a>
-          </li>
-          <li>
-            <a href="users-role-permission.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> User
-              Role & Permission</a>
-          </li>
-        </ul>
-      </li>
+      
 
       <li class="dropdown">
         <a href="javascript:void(0)">
@@ -524,12 +396,6 @@
       
       
       
-      <li>
-        <a href="terms-condition.html">
-          <iconify-icon icon="octicon:info-24" class="menu-icon"></iconify-icon>
-          <span>Terms & Conditions</span>
-        </a>
-      </li>
       
       
       <li class="dropdown">
@@ -935,7 +801,7 @@
             <ul class="to-top-list">
               <li>
                 <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                  href="view-profile.html">
+                  href="view-profile.php">
                   <iconify-icon icon="solar:user-linear" class="icon text-xl"></iconify-icon> My Profile</a>
               </li>
               <li>
@@ -950,7 +816,7 @@
               </li>
               <li>
                 <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-                  href="javascript:void(0)">
+                  href="logout.php">
                   <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon> Log Out</a>
               </li>
             </ul>
