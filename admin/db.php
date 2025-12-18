@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
 $db   = 'local_courier_db';
-$user = 'root'; // Default XAMPP user
-$pass = '';     // Default XAMPP password (leave empty)
+$user = 'root'; 
+$pass = '';     
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
