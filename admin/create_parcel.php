@@ -3,20 +3,35 @@ require 'db.php';
 
 $message = "";
 
-// 1. Fetch Active Packages for the Dropdown
-$stmt = $pdo->query("SELECT * FROM delivery_packages WHERE status = 'Active'");
-$packages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// 1. Fetch Data for Dropdowns
+try {
+    // Fetch Active Packages
+    $stmt = $pdo->query("SELECT * FROM delivery_packages WHERE status = 'Active'");
+    $packages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch Active Branches
+    $stmt = $pdo->query("SELECT branch_id, branch_name FROM branches WHERE status = 'active'");
+    $branches = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    // Handle error silently or log
+    $packages = [];
+    $branches = [];
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Generate Tracking ID
     $tracking_number = "TRK-" . rand(100000, 999999);
     
-    // Inputs
+    // Customer Inputs
     $sender = $_POST['sender_name'];
     $receiver = $_POST['receiver_name'];
     $receiver_phone = $_POST['receiver_phone'];
     $receiver_address = $_POST['receiver_address'];
     
+    // Logistics Inputs
+    $branch_id = !empty($_POST['branch_id']) ? $_POST['branch_id'] : NULL;
+    $payment_method = $_POST['payment_method'];
+
     // Pricing Logic Variables
     $package_id = $_POST['package_id'];
     $parcel_type = $_POST['parcel_type']; // Document or Parcel
@@ -24,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $location = $_POST['location']; // 'inside' or 'outside'
 
     // 2. Server-Side Price Calculation (Security)
-    // Fetch specific package rates again to ensure data integrity
+    // We re-fetch the rate to ensure the user didn't manipulate the price in the browser
     $stmtPkg = $pdo->prepare("SELECT * FROM delivery_packages WHERE package_id = ?");
     $stmtPkg->execute([$package_id]);
     $selected_pkg = $stmtPkg->fetch();
@@ -34,33 +49,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $rate = ($location === 'inside') ? $selected_pkg['price_inside_dhaka'] : $selected_pkg['price_outside_dhaka'];
         $calculated_price = $weight * $rate;
         
-        // Optional: Minimum charge logic (e.g., minimum 1kg charge)
-        if($weight < 1) $calculated_price = $rate; 
+        // Optional: Minimum charge logic (e.g., minimum cost cannot be 0)
+        if($calculated_price < $rate) $calculated_price = $rate; 
     }
 
     try {
         $pdo->beginTransaction();
 
         // 3. Insert into Parcels
-        // Note: You might want to add columns for weight/type/package_id to your database later.
-        // For now, we save the calculated price.
+        // Added: branch_id, payment_method
         $sql = "INSERT INTO parcels 
-                (tracking_number, sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, price, current_status, created_at) 
-                VALUES (?, ?, '000000000', 'Office', ?, ?, ?, ?, 'picked_up', NOW())";
+                (tracking_number, sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, price, payment_method, branch_id, current_status, created_at) 
+                VALUES (?, ?, '000000000', 'Office', ?, ?, ?, ?, ?, ?, 'picked_up', NOW())";
                 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$tracking_number, $sender, $receiver, $receiver_phone, $receiver_address, $calculated_price]);
+        $stmt->execute([
+            $tracking_number, 
+            $sender, 
+            $receiver, 
+            $receiver_phone, 
+            $receiver_address, 
+            $calculated_price,
+            $payment_method,
+            $branch_id
+        ]);
+        
         $parcel_id = $pdo->lastInsertId();
 
         // 4. Log Details in History
-        // We add the specific package details here so you know what was selected
-        $desc = "Order placed. Type: $parcel_type, Weight: {$weight}KG, Loc: " . ucfirst($location) . " Dhaka.";
+        $desc = "Order placed. Type: $parcel_type, Weight: {$weight}KG, Loc: " . ucfirst($location) . " Dhaka. Method: $payment_method";
         
         $stmtHistory = $pdo->prepare("INSERT INTO parcel_history (parcel_id, status, description, location) VALUES (?, 'Order Placed', ?, 'Main Hub')");
         $stmtHistory->execute([$parcel_id, $desc]);
 
         $pdo->commit();
-        $message = "<div class='alert alert-success alert-dismissible fade show'>Parcel Created! Tracking ID: <strong>$tracking_number</strong> - Cost: $$calculated_price <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+        $message = "<div class='alert alert-success alert-dismissible fade show'>Parcel Created! Tracking ID: <strong>$tracking_number</strong> - Cost: <strong>$$calculated_price</strong> <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
     } catch (Exception $e) {
         $pdo->rollBack();
         $message = "<div class='alert alert-danger alert-dismissible fade show'>Error: " . $e->getMessage() . "<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
@@ -133,7 +156,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                 </div>
 
-                <div class="col-12 mt-4"><h6 class="text-primary-light border-bottom pb-2">2. Package Details & Pricing</h6></div>
+                <div class="col-12 mt-4"><h6 class="text-primary-light border-bottom pb-2">2. Logistics & Payment</h6></div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Pickup Branch / Source</label>
+                    <div class="icon-field">
+                        <span class="icon"><iconify-icon icon="solar:buildings-bold-duotone"></iconify-icon></span>
+                        <select name="branch_id" class="form-select" required>
+                            <option value="" disabled selected>Select Branch</option>
+                            <?php foreach ($branches as $branch): ?>
+                                <option value="<?= $branch['branch_id'] ?>">
+                                    <?= htmlspecialchars($branch['branch_name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Payment Method</label>
+                    <div class="icon-field">
+                        <span class="icon"><iconify-icon icon="solar:card-linear"></iconify-icon></span>
+                        <select name="payment_method" class="form-select" required>
+                            <option value="Cash (Receiver)" selected>Cash (Receiver Pay / COD)</option>
+                            <option value="Cash (Sender)">Cash (Sender Pay)</option>
+                            <option value="bkash">bkash</option>
+                            <option value="2Checkout">2Checkout</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-4"><h6 class="text-primary-light border-bottom pb-2">3. Package Details & Pricing</h6></div>
 
                 <div class="col-md-6">
                     <label class="form-label">Select Package Plan</label>
@@ -178,8 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="icon-field">
                     <span class="icon text-success"><iconify-icon icon="solar:dollar-minimalistic-bold-duotone"></iconify-icon></span>
                     <input type="text" name="price_display" id="price_display" class="form-control fw-bold text-success" placeholder="0.00" readonly>
-                    <input type="hidden" name="price" id="price_hidden">
-                  </div>
+                    </div>
                 </div>
 
                 <div class="col-12 mt-3">
@@ -204,7 +256,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const weightInput = document.getElementById('weight');
         const locationSelect = document.getElementById('location');
         const priceDisplay = document.getElementById('price_display');
-        const priceHidden = document.getElementById('price_hidden');
 
         function calculatePrice() {
             // Get selected package option
@@ -227,9 +278,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Calculate Total
             let total = weight * ratePerKg;
 
+            // Optional: Enforce a minimum charge (e.g., if total is less than 1kg rate, charge 1kg rate)
+            // if (weight > 0 && total < ratePerKg) total = ratePerKg;
+
             // Update UI
             priceDisplay.value = total.toFixed(2);
-            priceHidden.value = total.toFixed(2);
         }
 
         // Attach Event Listeners
@@ -238,3 +291,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         locationSelect.addEventListener('change', calculatePrice);
     });
 </script>
+<style>
+    /* Wrapper for relative positioning */
+    .icon-field {
+        position: relative; 
+    }
+
+    /* Position the icon absolutely inside the wrapper */
+    .icon-field .icon {
+        position: absolute;
+        top: 50%;
+        left: 16px; /* Distance from left edge */
+        transform: translateY(-50%); /* Center vertically */
+        font-size: 1.2rem;
+        color: #6c757d; /* Muted text color */
+        pointer-events: none; /* Allows clicking through the icon to the select box */
+        z-index: 5;
+    }
+
+    /* THE FIX: Add padding-left to inputs and selects so text doesn't overlap icon */
+    .icon-field .form-control,
+    .icon-field .form-select {
+        padding-left: 45px !important; /* Push text 45px to the right */
+    }
+</style>

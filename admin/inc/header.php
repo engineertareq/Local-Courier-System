@@ -174,17 +174,9 @@
             <a href="index.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Analytics</a>
           </li>
           <li>
-            <a href="index-2.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
+            <a href="#"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
           </li>
-          <li>
-            <a href="index-3.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> eCommerce</a>
-          </li>
-          <li>
-            <a href="index-4.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Cryptocurrency</a>
-          </li>
-          <li>
-            <a href="index-5.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Investment</a>
-          </li>
+          
           
         </ul>
       </li>
@@ -203,7 +195,7 @@
               All Shipment</a>
           </li>
           <li>
-            <a href="invoice-add.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Assign Rider</a>
+            <a href="assign-rider.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Assign Rider</a>
           </li>
           <li>
             <a href="update_status.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Shipment Status</a>
@@ -229,7 +221,38 @@
           
         </ul>
       </li>
-
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="solar:buildings-bold-duotone" class="menu-icon"></iconify-icon>
+          <span>Branch Managment</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="add-branch.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+              Add New Branch</a>
+          </li>
+          <li>
+            <a href="branches.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> All Branch</a>
+          </li>
+          
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="solar:bicycling-round-bold-duotone" class="menu-icon"></iconify-icon>
+          <span>Rider Managment</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="add-rider.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+              Add Rider</a>
+          </li>
+          <li>
+            <a href="riders.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> All Riders</a>
+          </li>
+          
+        </ul>
+      </li>
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
