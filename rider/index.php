@@ -46,191 +46,118 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $courier['current_latitude'] = $lat;
     $courier['current_longitude'] = $lng;
     
-    $message = "<div class='alert alert-success border-0 shadow-sm mb-3 py-2'>
-                    <div class='d-flex align-items-center gap-2'>
-                        <iconify-icon icon='solar:check-circle-bold' class='fs-5'></iconify-icon>
-                        <small class='fw-bold'>Updated Successfully!</small>
-                    </div>
+    $message = "<div class='alert alert-success bg-success-100 text-success-600 border-0 radius-8 mb-24 py-12 px-24 d-flex align-items-center gap-2'>
+                    <iconify-icon icon='solar:check-circle-bold' class='text-xl'></iconify-icon>
+                    <div class='fw-semibold text-sm'>Status & Location Updated Successfully!</div>
                 </div>";
 }
 ?>
 
 <?php include "inc/header.php"?>
 
-<style>
-    :root {
-        --brand-color: #dc3545;
-        --brand-hover: #bb2d3b;
-        --card-bg: #ffffff;
-        --body-bg: #f8f9fa;
-    }
-
-    .dashboard-main-body { background-color: var(--body-bg); min-height: 90vh; }
-
-    /* Compact Cards */
-    .app-card {
-        background: var(--card-bg);
-        border: 1px solid #eaeaea;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        transition: transform 0.2s;
-    }
-    
-    /* Stats Box - Compact */
-    .stat-box {
-        background: #fff;
-        border-radius: 12px;
-        padding: 15px; /* Reduced padding */
-        border: 1px solid #f0f0f0;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.01);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .stat-icon {
-        width: 42px; height: 42px; /* Smaller icon box */
-        border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 20px;
-        flex-shrink: 0;
-    }
-    .icon-red { background: #fee2e2; color: #dc2626; }
-    .icon-blue { background: #e0e7ff; color: #4338ca; }
-    
-    /* Stats Text */
-    .stat-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #6c757d; margin-bottom: 2px; }
-    .stat-value { font-size: 1.1rem; font-weight: 800; color: #212529; margin: 0; }
-
-    /* Form Elements - Compact Heights */
-    .custom-select {
-        height: 45px; /* Reduced from 55px */
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-        font-weight: 600;
-        font-size: 0.9rem;
-        background-color: #fff;
-    }
-    .custom-select:focus { border-color: var(--brand-color); box-shadow: none; }
-
-    .btn-gps {
-        height: 45px; /* Reduced from 55px */
-        border: 1px dashed #adb5bd;
-        color: #495057;
-        background: transparent;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.2s;
-    }
-    .btn-gps:hover { border-color: var(--brand-color); color: var(--brand-color); background: #fff5f5; }
-
-    .btn-main {
-        height: 45px; /* Reduced from 55px */
-        background: var(--brand-color);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.9rem;
-    }
-    .btn-main:hover { background: var(--brand-hover); color: white; }
-
-    /* Welcome Banner - Compact */
-    .welcome-banner {
-        background: #212529;
-        color: white;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    .welcome-banner h4 { font-weight: 700; margin-bottom: 4px; font-size: 1.25rem; }
-    .welcome-banner p { font-size: 0.85rem; margin-bottom: 0; opacity: 0.8; }
-    
-    .status-badge {
-        font-size: 0.75rem;
-        background: rgba(255,255,255,0.15);
-        padding: 4px 10px;
-        border-radius: 4px;
-        margin-top: 10px;
-        display: inline-block;
-    }
-</style>
-
 <div class="dashboard-main-body">
-    <div class="container-fluid p-0">
-        
-        <?= $message ?>
 
-        <div class="row g-4">
-            <div class="col-lg-8">
-                
-                <div class="welcome-banner d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4>Hello, <?= htmlspecialchars(explode(' ', $user_name)[0]) ?>!</h4>
-                        <p>Ready for your deliveries?</p>
-                        <div class="status-badge">
-                            <iconify-icon icon="solar:bus-bold" class="me-1"></iconify-icon> 
-                            <?= ucfirst($courier['vehicle_type']) ?> &bull; <?= $courier['vehicle_plate_number'] ?>
-                        </div>
-                    </div>
-                    <div class="d-none d-md-block opacity-25">
-                         <iconify-icon icon="solar:bicycling-bold-duotone" style="font-size: 60px;"></iconify-icon>
-                    </div>
-                </div>
-
-                <div class="row g-3 mb-3">
-                    <div class="col-6">
-                        <div class="stat-box">
-                            <div class="stat-icon icon-red">
-                                <iconify-icon icon="solar:box-bold-duotone"></iconify-icon>
-                            </div>
-                            <div>
-                                <div class="stat-label">Pending</div>
-                                <h3 class="stat-value"><?= $active_tasks ?></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <div class="stat-box">
-                            <div class="stat-icon icon-blue">
-                                <iconify-icon icon="solar:wifi-router-round-bold-duotone"></iconify-icon>
-                            </div>
-                            <div>
-                                <div class="stat-label">Status</div>
-                                <h3 class="stat-value text-capitalize text-truncate" style="max-width: 100px;">
-                                    <?= $courier['status'] ?>
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="rider_tasks.php" class="app-card d-flex align-items-center justify-content-between p-3 text-decoration-none text-dark hover-lift">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-dark text-white rounded p-2 d-flex align-items-center justify-content-center">
-                            <iconify-icon icon="solar:clipboard-list-bold-duotone" class="fs-5"></iconify-icon>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold mb-0" style="font-size: 0.95rem;">View Delivery List</h6>
-                            <small class="text-secondary" style="font-size: 0.75rem;">Manage your active shipments</small>
-                        </div>
-                    </div>
-                    <iconify-icon icon="solar:alt-arrow-right-bold" class="fs-5 text-secondary"></iconify-icon>
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-24">
+        <h6 class="fw-semibold mb-0">Rider Dashboard</h6>
+        <ul class="d-flex align-items-center gap-2">
+            <li class="fw-medium">
+                <a href="#" class="d-flex align-items-center gap-1 hover-text-primary">
+                    <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
+                    Home
                 </a>
+            </li>
+            <li>-</li>
+            <li class="fw-medium">Overview</li>
+        </ul>
+    </div>
+
+    <?= $message ?>
+
+    <div class="row gy-4">
+        <div class="col-lg-8">
+            
+            <div class="card bg-primary-600 text-white mb-24 border-0 radius-12 overflow-hidden" style="background: linear-gradient(45deg, #4154f1, #2effff);">
+                <div class="card-body p-24 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <h4 class="fw-bold mb-2 text-white">Hello, <?= htmlspecialchars(explode(' ', $user_name)[0]) ?>! 🚴</h4>
+                        <p class="mb-0 text-white-50">Ready to deliver some happiness today?</p>
+                        
+                        <div class="mt-3 d-inline-flex align-items-center gap-2 bg-white bg-opacity-10 px-12 py-6 radius-8 border border-white border-opacity-25">
+                            <iconify-icon icon="solar:bus-bold" class="text-white text-lg"></iconify-icon> 
+                            <span class="text-sm fw-medium"><?= ucfirst($courier['vehicle_type']) ?> &bull; <?= $courier['vehicle_plate_number'] ?></span>
+                        </div>
+                    </div>
+                    <div class="d-none d-sm-block opacity-50">
+                        <iconify-icon icon="solar:bicycling-bold-duotone" style="font-size: 80px;" class="text-white"></iconify-icon>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-lg-4">
-                <div class="app-card p-3 h-100">
-                    <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
-                        <iconify-icon icon="solar:settings-bold-duotone" class="text-danger"></iconify-icon>
-                        <h6 class="fw-bold mb-0" style="font-size: 0.95rem;">Control Panel</h6>
+            <div class="row gy-4 mb-24">
+                <div class="col-sm-6">
+                    <div class="card h-100 radius-12 border-0 shadow-none bg-base">
+                        <div class="card-body p-24 d-flex align-items-center gap-3">
+                            <div class="w-50-px h-50-px d-flex justify-content-center align-items-center bg-warning-50 text-warning-600 rounded-circle">
+                                <iconify-icon icon="solar:box-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="fw-medium text-secondary-light mb-1">Pending Delivery</p>
+                                <h6 class="fw-bold mb-0 text-primary-light"><?= $active_tasks ?> Parcels</h6>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
+                <div class="col-sm-6">
+                    <div class="card h-100 radius-12 border-0 shadow-none bg-base">
+                        <div class="card-body p-24 d-flex align-items-center gap-3">
+                            <div class="w-50-px h-50-px d-flex justify-content-center align-items-center bg-info-50 text-info-600 rounded-circle">
+                                <iconify-icon icon="solar:wifi-router-round-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="fw-medium text-secondary-light mb-1">Current Status</p>
+                                <?php 
+                                    $statusColor = 'text-secondary-light';
+                                    if($courier['status'] == 'available') $statusColor = 'text-success-600';
+                                    if($courier['status'] == 'busy') $statusColor = 'text-danger-600';
+                                ?>
+                                <h6 class="fw-bold mb-0 <?= $statusColor ?> text-capitalize"><?= $courier['status'] ?></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="rider_tasks.php" class="card h-100 radius-12 border border-primary-100 hover-bg-primary-50 transition-2">
+                <div class="card-body p-24 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="w-48-px h-48-px bg-primary-600 text-white rounded-circle d-flex justify-content-center align-items-center">
+                            <iconify-icon icon="solar:clipboard-list-bold-duotone" class="text-2xl"></iconify-icon>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1 text-primary-light">Manage Delivery List</h6>
+                            <p class="text-sm text-secondary-light mb-0">View details and update parcel status</p>
+                        </div>
+                    </div>
+                    <div class="w-32-px h-32-px bg-white text-primary-600 rounded-circle d-flex justify-content-center align-items-center shadow-sm">
+                        <iconify-icon icon="solar:arrow-right-linear" class="text-xl"></iconify-icon>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card h-100 p-0 radius-12">
+                <div class="card-header border-bottom bg-base py-16 px-24">
+                    <h6 class="text-lg fw-semibold mb-0">Control Panel</h6>
+                </div>
+                <div class="card-body p-24">
                     <form method="POST" id="statusForm">
-                        <div class="mb-3">
-                            <label class="fw-bold text-secondary small mb-1 text-uppercase" style="font-size: 0.7rem;">Availability</label>
-                            <select name="status" class="form-select custom-select">
+                        
+                        <div class="mb-20">
+                            <label class="form-label fw-semibold text-primary-light text-sm mb-8">Availability Status</label>
+                            <select name="status" class="form-select form-control radius-8 h-40-px">
                                 <option value="available" <?= $courier['status'] == 'available' ? 'selected' : '' ?>>🟢 Available</option>
                                 <option value="busy" <?= $courier['status'] == 'busy' ? 'selected' : '' ?>>🔴 Busy</option>
                                 <option value="offline" <?= $courier['status'] == 'offline' ? 'selected' : '' ?>>⚫ Offline</option>
@@ -240,28 +167,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="hidden" name="latitude" id="lat" value="<?= $courier['current_latitude'] ?>">
                         <input type="hidden" name="longitude" id="lng" value="<?= $courier['current_longitude'] ?>">
 
-                        <div class="mb-3">
-                            <label class="fw-bold text-secondary small mb-1 text-uppercase" style="font-size: 0.7rem;">Location</label>
-                            <button type="button" class="btn btn-gps w-100" id="gpsBtn" onclick="getLocation()">
-                                <iconify-icon icon="solar:map-point-wave-bold" class="me-1 align-text-bottom"></iconify-icon>
-                                <span id="gpsText">Fetch GPS</span>
+                        <div class="mb-24">
+                            <label class="form-label fw-semibold text-primary-light text-sm mb-8">Location Sync</label>
+                            <button type="button" class="btn btn-outline-primary w-100 radius-8 d-flex justify-content-center align-items-center gap-2" id="gpsBtn" onclick="getLocation()">
+                                <iconify-icon icon="solar:map-point-wave-bold" class="text-xl"></iconify-icon>
+                                <span id="gpsText">Fetch Current GPS</span>
                             </button>
-                            <div id="locSuccess" class="text-success small fw-bold mt-1 text-center" style="display:none; font-size: 0.75rem;">
-                                Coordinates Ready
+                            <div id="locSuccess" class="text-success-600 text-sm fw-medium mt-8 text-center" style="display:none;">
+                                <iconify-icon icon="solar:check-circle-bold" class="align-middle me-1"></iconify-icon> Coordinates Ready
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-main w-100">Update Status</button>
+                        <button type="submit" class="btn btn-primary-600 w-100 radius-8 py-12">
+                            Update Status
+                        </button>
                     </form>
 
-                    <div class="text-center mt-3">
-                        <a href="logout.php" class="text-muted text-decoration-none" style="font-size: 0.8rem;">
-                            <iconify-icon icon="solar:logout-linear" class="align-middle"></iconify-icon> Sign Out
+                    <div class="mt-24 pt-24 border-top text-center">
+                        <a href="logout.php" class="text-danger-600 fw-semibold hover-text-danger-700 d-inline-flex align-items-center gap-2">
+                            <iconify-icon icon="solar:logout-linear" class="text-xl"></iconify-icon> Sign Out
                         </a>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -273,8 +201,8 @@ function getLocation() {
     const successMsg = document.getElementById("locSuccess");
 
     if (navigator.geolocation) {
-        btn.style.opacity = "0.6";
-        txt.innerHTML = "Loading...";
+        btn.classList.add('disabled');
+        txt.innerHTML = "Locating...";
         
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -282,16 +210,16 @@ function getLocation() {
                 document.getElementById("lng").value = position.coords.longitude;
                 
                 txt.innerHTML = "GPS Synced";
-                btn.style.opacity = "1";
-                btn.style.borderColor = "#198754"; // Success Green
-                btn.style.color = "#198754";
-                btn.style.background = "#f8fff9";
+                btn.classList.remove('btn-outline-primary');
+                btn.classList.add('btn-success-600', 'text-white');
+                btn.classList.remove('disabled');
+                
                 successMsg.style.display = "block";
             },
             (error) => {
                 alert("GPS Error: " + error.message);
-                btn.style.opacity = "1";
-                txt.innerHTML = "Retry";
+                btn.classList.remove('disabled');
+                txt.innerHTML = "Retry GPS";
             }
         );
     } else { 

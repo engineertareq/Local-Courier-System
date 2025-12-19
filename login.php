@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     // Redirect based on role (Optional customization)
                     if ($user['role'] === 'customer') {
-                        header("Location: parcel-track.php");
+                        header("Location: dashboard/index.php");
                     } else {
                         header("Location: admin/index.php");
                     }
