@@ -1,3 +1,14 @@
+<?php
+// 1. Start the session if it hasn't been started yet
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+// 2. Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // If NOT logged in, redirect them to the login page
+    header("Location: login.php");
+    exit; // Stop loading the rest of the page
+}
+?>
 <!-- meta tags and other links -->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">

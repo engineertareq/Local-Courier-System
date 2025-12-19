@@ -95,7 +95,7 @@ try {
                                     </td>
 
                                     <td>
-                                        <?php if ($rider['status'] == 'active'): ?>
+                                        <?php if ($rider['status'] == 'available'): ?>
                                             <span class="badge bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
                                         <?php elseif ($rider['status'] == 'busy'): ?>
                                             <span class="badge bg-warning-focus text-warning-main px-24 py-4 rounded-pill fw-medium text-sm">On Delivery</span>

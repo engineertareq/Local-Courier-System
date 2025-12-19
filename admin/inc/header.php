@@ -1,3 +1,26 @@
+<?php
+// 1. Start Session if not already started
+if (session_status() === PHP_SESSION_NONE) session_start();
+
+// 2. Check if user is Logged In
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php"); // Adjust path if login.php is in the same folder
+    exit();
+}
+
+// 3. Check Role Permission (Admin & Staff Only)
+// Allowed roles for this page
+$allowed_roles = ['admin', 'staff'];
+
+if (!in_array($_SESSION['role'], $allowed_roles)) {
+    // If user is logged in but is a CUSTOMER (or other role), kick them out
+    // Redirect them to the customer tracking page or show an error
+    header("Location: ../parcel-track.php"); 
+    exit();
+}
+
+// --- Page Content Starts Below ---
+?>
 <!-- meta tags and other links -->
 <!DOCTYPE html>
 <html lang="en" data-theme="light">

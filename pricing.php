@@ -73,27 +73,9 @@ function renderPublicCard($pkg, $location, $index) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing Rates | Desh Courier</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<?php include_once 'inc/header.php' ?>
 
     <style>
-        :root {
-            --primary-color: #4834d4;
-            --text-dark: #2d3436;
-        }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f7fa; }
-        
-        /* Navbar (Same as index.php) */
-        .navbar { background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .nav-link { font-weight: 500; color: var(--text-dark); margin: 0 10px; }
-        .nav-link:hover, .nav-link.active { color: var(--primary-color); }
-        .btn-custom { background: var(--primary-color); color: white; padding: 8px 25px; border-radius: 8px; border: none; }
         
         /* Hero */
         .page-hero {
@@ -143,32 +125,8 @@ function renderPublicCard($pkg, $location, $index) {
             color: white;
         }
     </style>
-</head>
+
 <body>
-
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4 text-dark" href="index.php">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                    <iconify-icon icon="solar:box-bold-duotone"></iconify-icon>
-                </div>
-                Desh Courier
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="public_pricing.php">Pricing</a></li>
-                    <li class="nav-item"><a class="nav-link" href="public_track.php">Track</a></li>
-                    <li class="nav-item ms-lg-3"><a href="login.php" class="btn btn-outline-primary me-2">Log In</a></li>
-                    <li class="nav-item"><a href="signup.php" class="btn btn-custom">Sign Up</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <section class="page-hero">
         <div class="container">
             <h1 class="fw-bold mb-3">Pricing</h1>
@@ -222,12 +180,4 @@ function renderPublicCard($pkg, $location, $index) {
         </div>
     </div>
 
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container text-center">
-            <p class="mb-0 small">&copy; 2025 Desh Courier Logistics. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <?php include_once 'inc/footer.php' ?>
