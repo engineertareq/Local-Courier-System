@@ -80,7 +80,7 @@ try {
                                                 $icon = "solar:bus-bold-duotone"; // Default
                                                 if(stripos($rider['vehicle_type'], 'bike') !== false) $icon = "solar:bicycling-bold-duotone";
                                                 if(stripos($rider['vehicle_type'], 'cycle') !== false) $icon = "solar:bicycling-round-bold-duotone";
-                                                if(stripos($rider['vehicle_type'], 'truck') !== false) $icon = "solar:truck-bold-duotone";
+                                                if(stripos($rider['vehicle_type'], 'truck') !== false) $icon = "game-icons:truck";
                                             ?>
                                             <iconify-icon icon="<?= $icon ?>" class="text-2xl text-primary"></iconify-icon>
                                             <div>

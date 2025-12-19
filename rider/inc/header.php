@@ -184,9 +184,6 @@ if (!isset($_SESSION['user_id'])) {
           <li>
             <a href="index.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Analytics</a>
           </li>
-          <li>
-            <a href="#"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
-          </li>
           
           
         </ul>
@@ -200,17 +197,9 @@ if (!isset($_SESSION['user_id'])) {
         <ul class="sidebar-submenu">
           <li>
             <a href="rider_tasks.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-              All Shipment</a>
+              Tasks</a>
           </li>
-          <li>
-            <a href="assign-rider.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Assign Rider</a>
-          </li>
-          <li>
-            <a href="update_status.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Shipment Status</a>
-          </li>
-          <li>
-            <a href="track.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Shipment Tracking</a>
-          </li>
+          
         </ul>
       </li>
     
@@ -606,7 +595,7 @@ if (!isset($_SESSION['user_id'])) {
               </li>
               <li>
                 <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                  href="company.html">
+                  href="setting.php">
                   <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon> Setting</a>
               </li>
               <li>

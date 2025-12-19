@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
 
-            <a href="rider_tasks.php" class="card h-100 radius-12 border border-primary-100 hover-bg-primary-50 transition-2">
+            <a href="rider_tasks.php" class="card h-30 radius-12 border border-primary-100 hover-bg-primary-50 transition-2">
                 <div class="card-body p-24 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-3">
                         <div class="w-48-px h-48-px bg-primary-600 text-white rounded-circle d-flex justify-content-center align-items-center">
