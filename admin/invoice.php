@@ -1,6 +1,8 @@
 <?php
 session_start();
 require 'db.php';
+// Adjust this path to where you put the fpdf.php file
+require('libs/fpdf.php'); 
 
 // Access Control
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'staff'])) {
@@ -8,7 +10,6 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'staff']
 }
 
 $id = $_GET['id'] ?? null;
-
 if (!$id) die("Invalid Invoice ID");
 
 // Fetch Parcel Data
@@ -18,151 +19,165 @@ $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$parcel) die("Parcel not found");
 
-// Current Date for Invoice Date
-$invoice_date = date('d M, Y');
+// --- START PDF GENERATION ---
+
+class PDF extends FPDF
+{
+    // Page Header
+    function Header()
+    {
+        // Logo (Adjust path if needed, or remove if no image)
+        // $this->Image('assets/images/logo.png',10,6,30);
+        
+        $this->SetFont('Arial','B',20);
+        $this->SetTextColor(72, 52, 212); // Brand Color (Desh Courier Blue)
+        $this->Cell(0,10,'Desh Courier',0,1,'L');
+        
+        $this->SetFont('Arial','',9);
+        $this->SetTextColor(100,100,100);
+        $this->Cell(0,5,'Global Logistics Solution',0,1,'L');
+        $this->Cell(0,5,'Dhaka, Bangladesh',0,1,'L');
+        $this->Cell(0,5,'support@deshcourier.com',0,1,'L');
+        
+        // Invoice Title (Right Aligned)
+        $this->SetXY(120, 10);
+        $this->SetFont('Arial','B',24);
+        $this->SetTextColor(220,220,220); // Light Grey
+        $this->Cell(80,10,'INVOICE',0,1,'R');
+        
+        $this->SetXY(120, 25);
+        $this->SetFont('Arial','B',12);
+        $this->SetTextColor(50,50,50);
+        $this->Cell(80,6,'# ' . $GLOBALS['parcel']['tracking_number'],0,1,'R');
+        
+        $this->SetFont('Arial','',10);
+        // Using created_at for the booking date
+        $this->Cell(190,6,'Booking Date: ' . date('d M, Y', strtotime($GLOBALS['parcel']['created_at'])),0,1,'R');
+        
+        $this->Ln(15); // Line break
+        $this->SetDrawColor(200,200,200);
+        $this->Line(10, 45, 200, 45);
+        $this->Ln(5);
+    }
+
+    // Page Footer
+    function Footer()
+    {
+        $this->SetY(-15);
+        $this->SetFont('Arial','I',8);
+        $this->SetTextColor(128);
+        $this->Cell(0,10,'Thank you for choosing Desh Courier! ',0,0,'C');
+    }
+}
+
+// Create PDF
+$pdf = new PDF();
+$pdf->AddPage();
+
+// --- SENDER & RECEIVER INFO ---
+$pdf->SetFont('Arial','B',10);
+$pdf->SetTextColor(108, 117, 125); // Secondary Color
+
+$y = $pdf->GetY();
+$pdf->Cell(95, 6, 'SENDER (FROM)', 0, 0, 'L');
+$pdf->Cell(95, 6, 'RECEIVER (BILL TO)', 0, 1, 'R');
+
+$pdf->SetFont('Arial','B',12);
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Cell(95, 8, $parcel['sender_name'], 0, 0, 'L');
+$pdf->Cell(95, 8, $parcel['receiver_name'], 0, 1, 'R');
+
+$pdf->SetFont('Arial','',10);
+$pdf->SetTextColor(80, 80, 80);
+$pdf->Cell(95, 5, $parcel['sender_phone'], 0, 0, 'L');
+$pdf->Cell(95, 5, $parcel['receiver_phone'], 0, 1, 'R');
+
+$pdf->SetFont('Arial','',9);
+$pdf->SetTextColor(100, 100, 100);
+// Increased substring limit slightly
+$pdf->Cell(95, 5, substr($parcel['sender_address'], 0, 50) . '...', 0, 0, 'L');
+$pdf->Cell(95, 5, substr($parcel['receiver_address'], 0, 50) . '...', 0, 1, 'R');
+
+$pdf->Ln(10);
+
+// --- NEW SECTION: SHIPMENT DETAILS GRID ---
+// This adds: Weight, Parcel Type, Delivery Type, Payment Method
+$pdf->SetFillColor(240, 240, 240); // Lighter Gray
+$pdf->SetTextColor(50, 50, 50);
+$pdf->SetFont('Arial','B',9);
+
+// Header Row for Details
+$pdf->Cell(47, 8, 'Weight', 1, 0, 'C', true);
+$pdf->Cell(47, 8, 'Parcel Type', 1, 0, 'C', true);
+$pdf->Cell(47, 8, 'Delivery Type', 1, 0, 'C', true);
+$pdf->Cell(49, 8, 'Payment Method', 1, 1, 'C', true);
+
+// Data Row for Details
+$pdf->SetFillColor(255, 255, 255); // White
+$pdf->SetFont('Arial','',9);
+$pdf->Cell(47, 8, $parcel['weight_kg'] . ' KG', 1, 0, 'C', false);
+$pdf->Cell(47, 8, ucfirst($parcel['parcel_type']), 1, 0, 'C', false);
+$pdf->Cell(47, 8, ucfirst($parcel['delivery_type']), 1, 0, 'C', false);
+$pdf->Cell(49, 8, ucfirst($parcel['payment_method']), 1, 1, 'C', false);
+
+$pdf->Ln(10);
+
+// --- FINANCIAL TABLE HEADER ---
+$pdf->SetFillColor(248, 249, 250); // Light Gray Background
+$pdf->SetFont('Arial','B',10);
+$pdf->SetTextColor(100, 100, 100);
+$pdf->Cell(80, 10, 'Description', 1, 0, 'L', true);
+$pdf->Cell(40, 10, 'Status', 1, 0, 'C', true);
+$pdf->Cell(40, 10, 'Tracking ID', 1, 0, 'C', true);
+$pdf->Cell(30, 10, 'Amount', 1, 1, 'R', true);
+
+// --- TABLE ROW ---
+$pdf->SetFont('Arial','',10);
+$pdf->SetTextColor(0, 0, 0);
+
+// Description combines Type and Weight for clarity
+$descText = 'Courier Charge (' . $parcel['parcel_type'] . ' - ' . $parcel['weight_kg'] . 'kg)';
+
+$pdf->Cell(80, 12, $descText, 1, 0, 'L');
+$pdf->Cell(40, 12, strtoupper($parcel['current_status']), 1, 0, 'C');
+$pdf->Cell(40, 12, $parcel['tracking_number'], 1, 0, 'C');
+$pdf->Cell(30, 12, '$' . number_format($parcel['price'], 2), 1, 1, 'R');
+
+$pdf->Ln(5);
+
+// --- TOTALS SECTION ---
+$pdf->SetX(120); // Move to right side
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(50, 6, 'Subtotal:', 0, 0, 'R');
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(30, 6, '$' . number_format($parcel['price'], 2), 0, 1, 'R');
+
+$pdf->SetX(120);
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(50, 6, 'Tax (0%):', 0, 0, 'R');
+$pdf->SetFont('Arial','B',10);
+$pdf->Cell(30, 6, '$0.00', 0, 1, 'R');
+
+$pdf->Ln(2);
+$pdf->SetX(120);
+$pdf->SetDrawColor(200,200,200);
+$pdf->Line(125, $pdf->GetY(), 200, $pdf->GetY()); // Separator Line
+$pdf->Ln(3);
+
+$pdf->SetX(120);
+$pdf->SetFont('Arial','B',14);
+$pdf->SetTextColor(72, 52, 212); // Brand Blue
+$pdf->Cell(50, 8, 'Total:', 0, 0, 'R');
+$pdf->Cell(30, 8, '$' . number_format($parcel['price'], 2), 0, 1, 'R');
+
+// Payment status badge
+$pdf->Ln(5);
+$pdf->SetX(120);
+$pdf->SetFont('Arial','I',10);
+$pdf->SetTextColor(100,100,100);
+$pdf->Cell(80, 6, 'Paid via: ' . ucfirst($parcel['payment_method']), 0, 1, 'R');
+
+
+// --- OUTPUT ---
+$pdf->Output('D', 'Invoice-' . $parcel['tracking_number'] . '.pdf');
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Invoice #<?= $parcel['tracking_number'] ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Text&display=swap" rel="stylesheet">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-
-    <style>
-        body { background: #f5f7fa; color: #333; font-family: 'Segoe UI', sans-serif; }
-        
-        .invoice-container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .barcode {
-            font-family: 'Libre Barcode 39 Text', cursive;
-            font-size: 40px;
-            color: #333;
-        }
-
-        .brand-color { color: #4834d4; }
-        .bg-brand { background-color: #4834d4 !important; color: white; }
-
-        .table-invoice th { background-color: #f8f9fa; color: #6c757d; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; }
-        .table-invoice td { vertical-align: middle; }
-
-        /* Print Specific Styles */
-        @media print {
-            body { background: #fff; -webkit-print-color-adjust: exact; }
-            .invoice-container { box-shadow: none; margin: 0; padding: 0; width: 100%; max-width: 100%; border-radius: 0; }
-            .no-print { display: none !important; }
-            .btn { display: none; }
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    
-    <div class="d-flex justify-content-center gap-3 my-4 no-print">
-        <a href="shipment_list.php" class="btn btn-secondary">
-            <iconify-icon icon="solar:arrow-left-linear"></iconify-icon> Back
-        </a>
-        <button onclick="window.print()" class="btn btn-primary bg-brand border-0">
-            <iconify-icon icon="solar:printer-bold"></iconify-icon> Print Invoice
-        </button>
-    </div>
-
-    <div class="invoice-container">
-        
-        <div class="d-flex justify-content-between align-items-center border-bottom pb-4 mb-4">
-            <div>
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <iconify-icon icon="solar:box-bold-duotone" class="brand-color fs-2"></iconify-icon>
-                    <h3 class="fw-bold m-0 brand-color">Desh Courier</h3>
-                </div>
-                <p class="mb-0 text-muted small">Global Logistics Solution</p>
-                <p class="mb-0 text-muted small">Dhaka, Bangladesh</p>
-                <p class="mb-0 text-muted small">support@deshcourier.com</p>
-            </div>
-            <div class="text-end">
-                <h2 class="fw-bold text-uppercase text-secondary opacity-25">Invoice</h2>
-                <div class="barcode"><?= $parcel['tracking_number'] ?></div>
-                <p class="mb-0"><strong>Date:</strong> <?= $invoice_date ?></p>
-            </div>
-        </div>
-
-        <div class="row mb-5">
-            <div class="col-6">
-                <h6 class="text-uppercase text-secondary fw-bold small mb-3">Sender (From)</h6>
-                <h5 class="fw-bold"><?= htmlspecialchars($parcel['sender_name']) ?></h5>
-                <p class="mb-1 text-muted"><?= htmlspecialchars($parcel['sender_phone']) ?></p>
-                <p class="mb-0 text-muted" style="max-width: 250px;"><?= htmlspecialchars($parcel['sender_address']) ?></p>
-            </div>
-            <div class="col-6 text-end">
-                <h6 class="text-uppercase text-secondary fw-bold small mb-3">Receiver (Bill To)</h6>
-                <h5 class="fw-bold"><?= htmlspecialchars($parcel['receiver_name']) ?></h5>
-                <p class="mb-1 text-muted"><?= htmlspecialchars($parcel['receiver_phone']) ?></p>
-                <p class="mb-0 text-muted d-inline-block text-start" style="max-width: 250px;"><?= htmlspecialchars($parcel['receiver_address']) ?></p>
-            </div>
-        </div>
-
-        <table class="table table-invoice mb-4">
-            <thead>
-                <tr>
-                    <th>Description</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Tracking ID</th>
-                    <th class="text-end">Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <strong class="d-block">Courier Delivery Charge</strong>
-                        <span class="text-muted small">Standard Delivery Package</span>
-                    </td>
-                    <td class="text-center">
-                        <span class="badge bg-light text-dark border"><?= strtoupper($parcel['current_status']) ?></span>
-                    </td>
-                    <td class="text-center"><?= $parcel['tracking_number'] ?></td>
-                    <td class="text-end fw-bold">$<?= number_format($parcel['price'], 2) ?></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="row justify-content-end">
-            <div class="col-md-5">
-                <div class="table-responsive">
-                    <table class="table table-sm table-borderless">
-                        <tr>
-                            <td class="text-muted">Subtotal:</td>
-                            <td class="text-end fw-bold">$<?= number_format($parcel['price'], 2) ?></td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted">Tax (0%):</td>
-                            <td class="text-end fw-bold">$0.00</td>
-                        </tr>
-                        <tr class="border-top">
-                            <td class="fs-5 fw-bold brand-color py-3">Total:</td>
-                            <td class="fs-5 fw-bold brand-color text-end py-3">$<?= number_format($parcel['price'], 2) ?></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-5 pt-4 border-top text-center text-muted small">
-            <p class="mb-1">Thank you for choosing Desh Courier!</p>
-            <p>Terms & Conditions apply. This is a computer-generated invoice.</p>
-        </div>
-
-    </div>
-</div>
-
-</body>
-</html>
