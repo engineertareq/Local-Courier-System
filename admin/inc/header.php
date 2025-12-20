@@ -1,11 +1,12 @@
 <?php
 // 1. Start Session if not already started
-if (session_status() === PHP_SESSION_NONE) session_start();
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
 
 // 2. Check if user is Logged In
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php"); // Adjust path if login.php is in the same folder
-    exit();
+  header("Location: ../login.php"); // Adjust path if login.php is in the same folder
+  exit();
 }
 
 // 3. Check Role Permission (Admin & Staff Only)
@@ -13,10 +14,10 @@ if (!isset($_SESSION['user_id'])) {
 $allowed_roles = ['admin', 'staff'];
 
 if (!in_array($_SESSION['role'], $allowed_roles)) {
-    // If user is logged in but is a CUSTOMER (or other role), kick them out
-    // Redirect them to the customer tracking page or show an error
-    header("Location: ../parcel-track.php"); 
-    exit();
+  // If user is logged in but is a CUSTOMER (or other role), kick them out
+  // Redirect them to the customer tracking page or show an error
+  header("Location: ../parcel-track.php");
+  exit();
 }
 
 // --- Page Content Starts Below ---
@@ -126,46 +127,34 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
       <div class="theme-setting-item">
         <h6 class="fw-medium text-primary-light text-md mb-3">Color Schema</h6>
         <div class="d-grid grid-cols-3 gap-3">
-          <button type="button"
-            class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
+          <button type="button" class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
             data-color="blue">
-            <span class="color-picker-btn__box h-40-px w-100 rounded-3"
-              style="background-color: #2563eb;"></span>
+            <span class="color-picker-btn__box h-40-px w-100 rounded-3" style="background-color: #2563eb;"></span>
             <span class="fw-medium mt-1" style="color: #2563eb;">Blue</span>
           </button>
-          <button type="button"
-            class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
+          <button type="button" class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
             data-color="red">
-            <span class="color-picker-btn__box h-40-px w-100 rounded-3"
-              style="background-color: #dc2626;"></span>
+            <span class="color-picker-btn__box h-40-px w-100 rounded-3" style="background-color: #dc2626;"></span>
             <span class="fw-medium mt-1" style="color: #dc2626;">Red</span>
           </button>
-          <button type="button"
-            class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
+          <button type="button" class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
             data-color="green">
-            <span class="color-picker-btn__box h-40-px w-100 rounded-3"
-              style="background-color: #16a34a;"></span>
+            <span class="color-picker-btn__box h-40-px w-100 rounded-3" style="background-color: #16a34a;"></span>
             <span class="fw-medium mt-1" style="color: #16a34a;">Green</span>
           </button>
-          <button type="button"
-            class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
+          <button type="button" class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
             data-color="yellow">
-            <span class="color-picker-btn__box h-40-px w-100 rounded-3"
-              style="background-color: #ff9f29;"></span>
+            <span class="color-picker-btn__box h-40-px w-100 rounded-3" style="background-color: #ff9f29;"></span>
             <span class="fw-medium mt-1" style="color: #ff9f29;">Yellow</span>
           </button>
-          <button type="button"
-            class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
+          <button type="button" class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
             data-color="cyan">
-            <span class="color-picker-btn__box h-40-px w-100 rounded-3"
-              style="background-color: #00b8f2;"></span>
+            <span class="color-picker-btn__box h-40-px w-100 rounded-3" style="background-color: #00b8f2;"></span>
             <span class="fw-medium mt-1" style="color: #00b8f2;">Cyan</span>
           </button>
-          <button type="button"
-            class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
+          <button type="button" class="color-picker-btn d-flex flex-column justify-content-center align-items-center"
             data-color="violet">
-            <span class="color-picker-btn__box h-40-px w-100 rounded-3"
-              style="background-color: #7c3aed;"></span>
+            <span class="color-picker-btn__box h-40-px w-100 rounded-3" style="background-color: #7c3aed;"></span>
             <span class="fw-medium mt-1" style="color: #7c3aed;">Violet</span>
           </button>
         </div>
@@ -196,9 +185,6 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
             <li>
               <a href="index.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Analytics</a>
             </li>
-            <li>
-              <a href="#"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
-            </li>
 
 
           </ul>
@@ -211,17 +197,20 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
           </a>
           <ul class="sidebar-submenu">
             <li>
-              <a href="create_parcel.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Create Shipment</a>
+              <a href="create_parcel.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Create
+                Shipment</a>
             </li>
             <li>
               <a href="shipment_list.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
                 All Shipment</a>
             </li>
             <li>
-              <a href="assign-rider.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Assign Rider</a>
+              <a href="assign-rider.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Assign
+                Rider</a>
             </li>
             <li>
-              <a href="update_status.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Shipment Status</a>
+              <a href="update_status.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Shipment
+                Status</a>
             </li>
             <li>
               <a href="track.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Shipment Tracking</a>
@@ -286,7 +275,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
               <a href="users-list.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
             </li>
             <li>
-              <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users Grid</a>
+              <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users
+                Grid</a>
             </li>
             <li>
               <a href="add-user.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
@@ -329,21 +319,7 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
 
         <li class="sidebar-menu-group-title">UI Elements</li>
 
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="mingcute:storage-line" class="menu-icon"></iconify-icon>
-            <span>Table</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="table-basic.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Basic
-                Table</a>
-            </li>
-            <li>
-              <a href="table-data.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Data Table</a>
-            </li>
-          </ul>
-        </li>
+        
         <li class="dropdown">
           <a href="javascript:void(0)">
             <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
@@ -351,7 +327,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
           </a>
           <ul class="sidebar-submenu">
             <li>
-              <a href="line-chart.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Line Chart</a>
+              <a href="line-chart.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Line
+                Chart</a>
             </li>
             <li>
               <a href="column-chart.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Column
@@ -370,22 +347,6 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
         </li>
 
 
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <i class="ri-user-settings-line text-xl me-14 d-flex w-auto"></i>
-            <span>Role & Access</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="role-access.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Role &
-                Access</a>
-            </li>
-            <li>
-              <a href="assign-role.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Assign
-                Role</a>
-            </li>
-          </ul>
-        </li>
 
         <li class="sidebar-menu-group-title">Application</li>
 
@@ -397,12 +358,13 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
           </a>
           <ul class="sidebar-submenu">
             <li>
-              <a href="gallery.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Items in Gallery</a>
+              <a href="gallery.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Items in
+                Gallery</a>
             </li>
           </ul>
         </li>
 
-        
+
         <li class="dropdown">
           <a href="javascript:void(0)">
             <i class="ri-news-line text-xl me-14 d-flex w-auto"></i>
@@ -447,7 +409,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
               <a href="theme.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Theme</a>
             </li>
             <li>
-              <a href="currencies.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Currencies</a>
+              <a href="currencies.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
+                Currencies</a>
             </li>
             <li>
               <a href="language.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Languages</a>
@@ -507,7 +470,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                     <div class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                       <span class="w-40-px h-40-px rounded-circle flex-shrink-0 position-relative">
                         <img src="assets/images/notification/profile-3.png" alt="Image">
-                        <span class="w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0"></span>
+                        <span
+                          class="w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0"></span>
                       </span>
                       <div>
                         <h6 class="text-md fw-semibold mb-4">Kathryn Murphy</h6>
@@ -526,7 +490,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                     <div class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                       <span class="w-40-px h-40-px rounded-circle flex-shrink-0 position-relative">
                         <img src="assets/images/notification/profile-4.png" alt="Image">
-                        <span class="w-8-px h-8-px  bg-neutral-300 rounded-circle position-absolute end-0 bottom-0"></span>
+                        <span
+                          class="w-8-px h-8-px  bg-neutral-300 rounded-circle position-absolute end-0 bottom-0"></span>
                       </span>
                       <div>
                         <h6 class="text-md fw-semibold mb-4">Robiul Hasan</h6>
@@ -545,7 +510,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                     <div class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                       <span class="w-40-px h-40-px rounded-circle flex-shrink-0 position-relative">
                         <img src="assets/images/notification/profile-5.png" alt="Image">
-                        <span class="w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0"></span>
+                        <span
+                          class="w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0"></span>
                       </span>
                       <div>
                         <h6 class="text-md fw-semibold mb-4">Kathryn Murphy</h6>
@@ -564,7 +530,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                     <div class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                       <span class="w-40-px h-40-px rounded-circle flex-shrink-0 position-relative">
                         <img src="assets/images/notification/profile-6.png" alt="Image">
-                        <span class="w-8-px h-8-px bg-neutral-300 rounded-circle position-absolute end-0 bottom-0"></span>
+                        <span
+                          class="w-8-px h-8-px bg-neutral-300 rounded-circle position-absolute end-0 bottom-0"></span>
                       </span>
                       <div>
                         <h6 class="text-md fw-semibold mb-4">Kathryn Murphy</h6>
@@ -583,7 +550,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                     <div class="text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3">
                       <span class="w-40-px h-40-px rounded-circle flex-shrink-0 position-relative">
                         <img src="assets/images/notification/profile-7.png" alt="Image">
-                        <span class="w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0"></span>
+                        <span
+                          class="w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0"></span>
                       </span>
                       <div>
                         <h6 class="text-md fw-semibold mb-4">Kathryn Murphy</h6>
@@ -735,7 +703,8 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                   <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
                       href="company.html">
-                      <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon> Setting</a>
+                      <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon>
+                      Setting</a>
                   </li>
                   <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"

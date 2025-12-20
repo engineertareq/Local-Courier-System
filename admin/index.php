@@ -119,7 +119,7 @@ include 'inc/header.php';
                                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-8">
                                     <div>
                                         <p class="fw-medium text-secondary-light mb-1 text-sm">Revenue</p>
-                                        <h6 class="mb-0">$<?= number_format($total_revenue) ?></h6>
+                                        <h6 class="mb-0">৳<?= number_format($total_revenue) ?></h6>
                                     </div>
                                     <div class="w-50-px h-50-px bg-primary-600 rounded-circle d-flex justify-content-center align-items-center">
                                         <iconify-icon icon="solar:wallet-bold-duotone" class="text-white text-2xl mb-0"></iconify-icon>

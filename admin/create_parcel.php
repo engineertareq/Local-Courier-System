@@ -247,7 +247,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-md-4">
                   <label class="form-label">Total Cost</label>
                   <div class="icon-field">
-                    <span class="icon text-success"><iconify-icon icon="solar:dollar-minimalistic-bold-duotone"></iconify-icon></span>
+                    <span class="icon text-success"><iconify-icon icon="tabler:coin-taka"></iconify-icon></span>
                     <input type="text" name="price_display" id="price_display" class="form-control fw-bold text-success" placeholder="0.00" readonly>
                     </div>
                 </div>

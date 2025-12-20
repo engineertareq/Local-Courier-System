@@ -204,14 +204,6 @@ if (!isset($_SESSION['user_id'])) {
       </li>
     
     
-      <li class="sidebar-menu-group-title">Application</li>
-      
-      <li>
-        <a href="chat-message.html">
-          <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
-          <span>Chat</span>
-        </a>
-      </li>
       
       
     </ul>
