@@ -112,9 +112,6 @@ include 'inc/header.php';
                             </td>
                             <td class="text-center"> 
                                 <div class="d-flex align-items-center gap-10 justify-content-center">
-                                    <a href="invoice.php?id=<?= $inv['parcel_id'] ?>" target="_blank" title="View / Print" class="bg-primary-focus text-primary-600 w-32-px h-32-px d-flex justify-content-center align-items-center rounded-circle"> 
-                                        <iconify-icon icon="solar:eye-linear" class="text-lg"></iconify-icon>
-                                    </a>
                                     <a href="invoice.php?id=<?= $inv['parcel_id'] ?>" download title="Download" class="bg-info-focus text-info-600 w-32-px h-32-px d-flex justify-content-center align-items-center rounded-circle"> 
                                         <iconify-icon icon="solar:download-linear" class="text-lg"></iconify-icon>
                                     </a>

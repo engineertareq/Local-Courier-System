@@ -275,10 +275,6 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
               <a href="users-list.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
             </li>
             <li>
-              <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users
-                Grid</a>
-            </li>
-            <li>
               <a href="add-user.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
             </li>
             <li>
@@ -312,40 +308,6 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
             </li>
           </ul>
         </li>
-
-
-
-
-
-        <li class="sidebar-menu-group-title">UI Elements</li>
-
-        
-        <li class="dropdown">
-          <a href="javascript:void(0)">
-            <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
-            <span>Chart</span>
-          </a>
-          <ul class="sidebar-submenu">
-            <li>
-              <a href="line-chart.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Line
-                Chart</a>
-            </li>
-            <li>
-              <a href="column-chart.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Column
-                Chart</a>
-            </li>
-            <li>
-              <a href="pie-chart.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Pie Chart</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="widgets.html">
-            <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-            <span>Widgets</span>
-          </a>
-        </li>
-
 
 
         <li class="sidebar-menu-group-title">Application</li>
@@ -395,29 +357,7 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
           </a>
           <ul class="sidebar-submenu">
             <li>
-              <a href="company.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Company</a>
-            </li>
-            <li>
-              <a href="notification.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
-                Notification</a>
-            </li>
-            <li>
-              <a href="notification-alert.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>
-                Notification Alert</a>
-            </li>
-            <li>
-              <a href="theme.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Theme</a>
-            </li>
-            <li>
-              <a href="currencies.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-                Currencies</a>
-            </li>
-            <li>
-              <a href="language.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Languages</a>
-            </li>
-            <li>
-              <a href="payment-gateway.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Payment
-                Gateway</a>
+              <a href="view-profile.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Profile</a>
             </li>
           </ul>
         </li>
@@ -682,7 +622,7 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                 <div
                   class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
                   <div>
-                    <h6 class="text-lg text-primary-light fw-semibold mb-2">Robiul Hasan</h6>
+                    <h6 class="text-lg text-primary-light fw-semibold mb-2">Hello</h6>
                     <span class="text-secondary-light fw-medium text-sm">Admin</span>
                   </div>
                   <button type="button" class="hover-text-danger">
@@ -697,12 +637,7 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
                   </li>
                   <li>
                     <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      href="email.html">
-                      <iconify-icon icon="tabler:message-check" class="icon text-xl"></iconify-icon> Inbox</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3"
-                      href="company.html">
+                      href="view-profile.php">
                       <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon>
                       Setting</a>
                   </li>

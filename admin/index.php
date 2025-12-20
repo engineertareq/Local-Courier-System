@@ -1,5 +1,5 @@
 <?php 
-session_start();
+// session_start();
 require 'db.php';
 
 // --- 1. DASHBOARD STATS LOGIC ---
@@ -65,7 +65,7 @@ include 'inc/header.php';
         <h6 class="fw-semibold mb-0">Shipment Dashboard</h6>
         <ul class="d-flex align-items-center gap-2">
             <li class="fw-medium">
-                <a href="index.html" class="d-flex align-items-center gap-1 hover-text-primary">
+                <a href="index.php" class="d-flex align-items-center gap-1 hover-text-primary">
                     <iconify-icon icon="solar:home-smile-angle-outline" class="icon text-lg"></iconify-icon>
                     Dashboard
                 </a>

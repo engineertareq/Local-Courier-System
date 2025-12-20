@@ -1,12 +1,32 @@
 <?php
-// 1. Start the session if it hasn't been started yet
+require 'db.php'; 
+
+// 1. Start Session & Check Login
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// 2. Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // If NOT logged in, redirect them to the login page
     header("Location: login.php");
-    exit; // Stop loading the rest of the page
+    exit;
+}
+
+// 2. Fetch User Details
+// We select full_name, role, and profile_image based on your screenshot columns
+$userStmt = $pdo->prepare("SELECT full_name, role, profile_image FROM users WHERE user_id = ?");
+$userStmt->execute([$_SESSION['user_id']]);
+$user = $userStmt->fetch(PDO::FETCH_ASSOC);
+
+// 3. Set Variables (with safety checks)
+$fullName = $user['full_name'] ?? 'User';
+$userRole = $user['role'] ?? 'Member';
+
+// 4. Handle Image Path
+// Your DB stores just the filename (e.g., "user_1765984912.png")
+// Ensure you point to the correct folder (e.g., 'uploads/')
+if (!empty($user['profile_image'])) {
+    $userImage = 'uploads/' . $user['profile_image']; 
+} else {
+    // Fallback if no image is set
+    $userImage = 'assets/images/profile/user-1.jpg'; 
 }
 ?>
 <!-- meta tags and other links -->
@@ -561,14 +581,14 @@ if (!isset($_SESSION['user_id'])) {
         <div class="dropdown">
           <button class="d-flex justify-content-center align-items-center rounded-circle" type="button"
             data-bs-toggle="dropdown">
-            <img src="assets/images/user.png" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle">
+            <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle">
           </button>
           <div class="dropdown-menu to-top dropdown-menu-sm">
             <div
               class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
               <div>
-                <h6 class="text-lg text-primary-light fw-semibold mb-2">Robiul Hasan</h6>
-                <span class="text-secondary-light fw-medium text-sm">Admin</span>
+                <h6 class="text-lg text-primary-light fw-semibold mb-2"><?php echo htmlspecialchars($fullName); ?></h6>
+                <span class="text-secondary-light fw-medium text-sm"><?php echo htmlspecialchars(ucfirst($userRole)); ?></span>
               </div>
               <button type="button" class="hover-text-danger">
                 <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>
