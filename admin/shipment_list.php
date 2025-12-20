@@ -146,9 +146,7 @@ include 'inc/header.php';
                                         <iconify-icon icon="solar:printer-linear" class="text-lg"></iconify-icon>
                                     </a>
 
-                                    <a href="update_status.php?tracking_number=<?= $parcel['tracking_number'] ?>" title="Update Status" class="bg-info-focus text-info-600 w-32-px h-32-px d-flex justify-content-center align-items-center rounded-circle"> 
-                                        <iconify-icon icon="solar:refresh-circle-linear" class="text-lg"></iconify-icon>
-                                    </a>
+                                    
                                     
                                     <a href="edit_shipment.php?id=<?= $parcel['parcel_id'] ?>" title="Edit" class="bg-success-focus text-success-600 w-32-px h-32-px d-flex justify-content-center align-items-center rounded-circle"> 
                                         <iconify-icon icon="lucide:edit" class="text-md"></iconify-icon>

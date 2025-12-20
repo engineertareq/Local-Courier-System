@@ -30,7 +30,7 @@ if (!in_array($_SESSION['role'], $allowed_roles)) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Desh Courier</title>
-  <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="assets/images/fav.jpg" sizes="16x16">
   <!-- remix icon font css  -->
   <link rel="stylesheet" href="assets/css/remixicon.css">
   <!-- BootStrap css -->

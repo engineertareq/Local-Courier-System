@@ -244,7 +244,7 @@ include 'inc/header.php';
                     </div>
                 </div>
             </div>
-
+              
             <div class="col-xxl-4 col-lg-6">
                 <div class="shadow-7 p-0 radius-12 bg-base overflow-hidden h-100">
                     <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between py-16 px-20 border-bottom border-neutral-200">
@@ -255,7 +255,7 @@ include 'inc/header.php';
                     </div>
                 </div>
             </div>
-
+               
             <div class="col-xxl-4 col-lg-6">
                 <div class="card radius-8 border-0">
                     <div class="card-body">

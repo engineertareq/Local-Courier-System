@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['assign_courier'])) {
             $stmtName->execute([$courier_id]);
             $courier_name = $stmtName->fetchColumn();
 
-            $desc = "Shipment assigned to courier: " . $courier_name;
-            $stmtHist = $pdo->prepare("INSERT INTO parcel_history (parcel_id, status, description, location) VALUES (?, 'Courier Assigned', ?, 'Dispatch Center')");
+            $desc = "Shipment assigned to rider: " . $courier_name;
+            $stmtHist = $pdo->prepare("INSERT INTO parcel_history (parcel_id, status, description, location) VALUES (?, 'Rider Assigned', ?, 'Dispatch Center')");
             $stmtHist->execute([$parcel_id, $desc]);
 
             $pdo->commit();
