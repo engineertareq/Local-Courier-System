@@ -31,8 +31,6 @@ try {
     $branches = [];
 }
 
-// ... [Keep your top includes and fetches existing code] ...
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tracking_number = "TRK-" . rand(100000, 999999);
     
@@ -40,11 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sender = $_POST['sender_name'];
     $sender_phone = $_POST['sender_phone'];
     $sender_address = $_POST['sender_address'];
+    
     $receiver = $_POST['receiver_name'];
     $receiver_phone = $_POST['receiver_phone'];
     $receiver_address = $_POST['receiver_address'];
+    
     $branch_id = !empty($_POST['branch_id']) ? $_POST['branch_id'] : NULL;
     $payment_method = $_POST['payment_method'];
+
     $package_id = $_POST['package_id'];
     $parcel_type = $_POST['parcel_type']; 
     $weight = floatval($_POST['weight']);
@@ -65,17 +66,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo->beginTransaction();
 
-        // 1. INSERT DATA (Default payment_status is 'Unpaid')
-        // Note: Added 'payment_status' column to SQL
+        // REMOVED sender_id from here
         $sql = "INSERT INTO parcels 
-                (tracking_number, sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, weight_kg, price, payment_method, branch_id, current_status, payment_status, created_at) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'Unpaid', NOW())";
+                (tracking_number, sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, weight_kg, price, payment_method, branch_id, current_status, created_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())";
                 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-            $tracking_number, $sender, $sender_phone, $sender_address,  
-            $receiver, $receiver_phone, $receiver_address, $weight,          
-            $calculated_price, $payment_method, $branch_id
+            $tracking_number, 
+            $sender, 
+            $sender_phone,    
+            $sender_address,  
+            $receiver, 
+            $receiver_phone, 
+            $receiver_address, 
+            $weight,          
+            $calculated_price,
+            $payment_method,
+            $branch_id
         ]);
         
         $parcel_id = $pdo->lastInsertId();
@@ -86,60 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtHistory->execute([$parcel_id, $desc, $user_id]);
 
         $pdo->commit();
-
-        // --- PAYMENT LOGIC BRANCHING ---
-
-        if ($payment_method == 'amarpay') {
-            // == AAMARPAY REDIRECT LOGIC ==
-            
-            $payment_data = [
-                'store_id' => 'aamarpaytest', // Change to Live Store ID
-                'signature_key' => 'dbb74894e82415a2f7ff0ec3a97e4183', // Change to Live Key
-                'cus_name' => $sender,
-                'cus_email' => 'customer@example.com', // You should add an email field or use dummy
-                'cus_phone' => $sender_phone,
-                'cus_add1' => $sender_address,
-                'cus_add2' => $sender_address,
-                'cus_city' => 'Dhaka',
-                'cus_country' => 'Bangladesh',
-                'amount' => $calculated_price,
-                'currency' => 'BDT',
-                'tran_id' => $tracking_number, // We use Tracking Number as Transaction ID
-                'success_url' => 'http://localhost/Projects/Local-Courier/dashboard/payment_success.php', // CHANGE THIS to your actual URL
-                'fail_url' => 'http://localhost/Projects/Local-Courier/dashboard/index.php?status=fail',
-                'cancel_url' => 'http://localhost/Projects/Local-Courier/dashboard/index.php?status=cancel',
-                'desc' => 'Parcel Delivery Charge',
-                'type' => 'json'
-            ];
-
-            // Send Request to Aamarpay
-            $url = 'https://sandbox.aamarpay.com/jsonpost.php'; // Change to https://secure.aamarpay.com/jsonpost.php for LIVE
-            
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payment_data));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            $response = curl_exec($ch);
-            curl_close($ch);
-
-            $result = json_decode($response, true);
-
-            if (isset($result['payment_url']) && !empty($result['payment_url'])) {
-                // Redirect User to Payment Gateway
-                header("Location: " . $result['payment_url']);
-                exit(); 
-            } else {
-                // API Error
-                $message = "<div class='alert alert-danger'>Payment Gateway Error. Please try Cash.</div>";
-            }
-
-        } else {
-            // == NORMAL CASH / COD LOGIC ==
-            $message = "<div class='alert alert-success alert-dismissible fade show'>Parcel Created! Tracking ID: <strong>$tracking_number</strong> <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
-        }
-
+        $message = "<div class='alert alert-success alert-dismissible fade show'>Parcel Created! Tracking ID: <strong>$tracking_number</strong> <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
     } catch (Exception $e) {
         $pdo->rollBack();
         $message = "<div class='alert alert-danger alert-dismissible fade show'>Error: " . $e->getMessage() . "<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";

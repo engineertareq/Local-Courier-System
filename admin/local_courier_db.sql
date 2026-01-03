@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2025 at 12:51 PM
+-- Generation Time: Jan 03, 2026 at 06:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,7 +74,7 @@ CREATE TABLE `couriers` (
 INSERT INTO `couriers` (`courier_id`, `user_id`, `vehicle_type`, `vehicle_plate_number`, `status`, `current_latitude`, `current_longitude`) VALUES
 (2, 6, 'bike', 'DHK-15496', 'available', 23.75163980, 90.38426190),
 (3, 10, 'bike', 'DHK-1549645', 'available', 1.99954000, 124.39700000),
-(6, 12, 'truck', 'DHK-15496d', 'available', 23.77175120, 90.38131870),
+(6, 12, 'truck', 'DHK-15496d', 'available', 23.75241570, 90.39161320),
 (8, 7, 'bike', 'DHK-15496fgjgh', 'available', 0.00000000, 0.00000000);
 
 -- --------------------------------------------------------
@@ -127,30 +127,69 @@ CREATE TABLE `parcels` (
   `assigned_courier_id` int(11) DEFAULT NULL,
   `branch_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `payment_status` varchar(20) DEFAULT 'Unpaid'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `parcels`
 --
 
-INSERT INTO `parcels` (`parcel_id`, `tracking_number`, `parcel_type`, `sender_name`, `sender_phone`, `sender_address`, `receiver_name`, `receiver_phone`, `receiver_address`, `weight_kg`, `delivery_type`, `price`, `payment_method`, `current_status`, `assigned_courier_id`, `branch_id`, `created_at`, `updated_at`) VALUES
-(3, 'TRK-959431', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Dhaka', NULL, 'standard', 50.00, 'Cash (Receiver)', 'delivered', NULL, NULL, '2025-12-17 15:53:59', '2025-12-17 16:51:45'),
-(5, 'TRK-536597', 'Parcel', 'Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 18000.00, 'Cash (Receiver)', 'picked_up', NULL, NULL, '2025-12-18 08:04:02', '2025-12-18 08:04:02'),
-(6, 'TRK-507150', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', 'picked_up', NULL, 1, '2025-12-18 08:17:16', '2025-12-18 08:17:16'),
-(7, 'TRK-993374', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', 'picked_up', NULL, 1, '2025-12-18 08:20:53', '2025-12-18 08:20:53'),
-(8, 'TRK-111086', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', 'delivered', 6, 1, '2025-12-18 08:21:15', '2025-12-19 09:52:31'),
-(9, 'TRK-195302', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', '', 3, 1, '2025-12-18 08:21:32', '2025-12-18 13:59:55'),
-(10, 'TRK-925176', 'Parcel', 'Tareq', '000000000', 'Office', 'ABS Sabbir', '+8801309029797', 'Sonargaon Imtiaz Tower, House# 8, 9, 10/3, Free School Street, Kathalbagan', NULL, 'standard', 7000.00, 'bkash', 'out_for_delivery', 6, 1, '2025-12-18 08:26:44', '2025-12-19 15:50:44'),
-(11, 'TRK-998938', 'Parcel', 'Tareq', '000000000', 'Office', 'Sachinoor Sachi', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', NULL, 'standard', 6300.00, '2Checkout', 'delivered', 6, 1, '2025-12-18 13:26:50', '2025-12-18 16:19:29'),
-(12, 'TRK-770834', 'Parcel', 'Tareq', '000000000', 'Office', 'Sachinoor Sachi', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', NULL, 'standard', 6300.00, '2Checkout', 'delivered', 2, 1, '2025-12-18 14:07:13', '2025-12-18 14:44:00'),
-(13, 'TRK-693113', 'Parcel', 'Tareq', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', 15.00, 'standard', 2100.00, 'Cash (Sender)', 'picked_up', 6, 2, '2025-12-19 08:33:23', '2025-12-19 09:11:32'),
-(14, 'TRK-592087', 'Parcel', 'Tareq', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', '93, Bernaiya, Shahrasti, Chandpur', 12.00, 'standard', 960.00, 'Cash (Receiver)', 'delivered', 6, 4, '2025-12-19 12:20:49', '2025-12-19 15:50:20'),
-(15, 'TRK-541989', 'Parcel', 'Sachinoor Sachi', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', 10.00, 'standard', 500.00, 'Cash (Receiver)', 'pending', NULL, 2, '2025-12-19 14:53:20', '2025-12-19 14:53:20'),
-(16, 'TRK-560508', 'Parcel', 'Sachinoor', '01855457301', 'Dhanmondi', 'Shuvro Sajeeb', '+8801901025151', 'Dhanmondi', 50.00, 'standard', 6000.00, 'Cash (Sender)', 'pending', NULL, 2, '2025-12-19 14:54:22', '2025-12-19 14:54:22'),
-(17, 'TRK-268218', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', 50.00, 'standard', 4000.00, 'Cash (Sender)', 'pending', NULL, 2, '2025-12-19 15:05:38', '2025-12-19 15:05:38'),
-(18, 'TRK-811820', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'Dhanmondi', 50.00, 'standard', 2500.00, '2Checkout', 'pending', 6, 2, '2025-12-19 15:11:57', '2025-12-19 15:13:41'),
-(19, 'TRK-755407', 'Parcel', 'rider', '01715540895', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', 150.00, 'standard', 7500.00, 'bkash', 'pending', 6, 1, '2025-12-19 15:30:44', '2025-12-20 06:07:31');
+INSERT INTO `parcels` (`parcel_id`, `tracking_number`, `parcel_type`, `sender_name`, `sender_phone`, `sender_address`, `receiver_name`, `receiver_phone`, `receiver_address`, `weight_kg`, `delivery_type`, `price`, `payment_method`, `current_status`, `assigned_courier_id`, `branch_id`, `created_at`, `updated_at`, `payment_status`) VALUES
+(3, 'TRK-959431', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Dhaka', NULL, 'standard', 50.00, 'Cash (Receiver)', 'delivered', NULL, NULL, '2025-12-17 15:53:59', '2025-12-17 16:51:45', 'Unpaid'),
+(5, 'TRK-536597', 'Parcel', 'Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 18000.00, 'Cash (Receiver)', 'picked_up', NULL, NULL, '2025-12-18 08:04:02', '2025-12-18 08:04:02', 'Unpaid'),
+(6, 'TRK-507150', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', 'picked_up', NULL, 1, '2025-12-18 08:17:16', '2025-12-18 08:17:16', 'Unpaid'),
+(7, 'TRK-993374', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', 'picked_up', NULL, 1, '2025-12-18 08:20:53', '2025-12-18 08:20:53', 'Unpaid'),
+(8, 'TRK-111086', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', 'delivered', 6, 1, '2025-12-18 08:21:15', '2025-12-19 09:52:31', 'Unpaid'),
+(9, 'TRK-195302', 'Parcel', 'Tanjimul Islam Tareq', '000000000', 'Office', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', NULL, 'standard', 5000.00, 'bkash', '', 3, 1, '2025-12-18 08:21:32', '2025-12-18 13:59:55', 'Unpaid'),
+(10, 'TRK-925176', 'Parcel', 'Tareq', '000000000', 'Office', 'ABS Sabbir', '+8801309029797', 'Sonargaon Imtiaz Tower, House# 8, 9, 10/3, Free School Street, Kathalbagan', NULL, 'standard', 7000.00, 'bkash', 'delivered', 6, 1, '2025-12-18 08:26:44', '2025-12-20 20:56:36', 'Unpaid'),
+(11, 'TRK-998938', 'Parcel', 'Tareq', '000000000', 'Office', 'Sachinoor Sachi', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', NULL, 'standard', 6300.00, '2Checkout', 'delivered', 6, 1, '2025-12-18 13:26:50', '2025-12-18 16:19:29', 'Unpaid'),
+(12, 'TRK-770834', 'Parcel', 'Tareq', '000000000', 'Office', 'Sachinoor Sachi', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', NULL, 'standard', 6300.00, '2Checkout', 'delivered', 2, 1, '2025-12-18 14:07:13', '2025-12-18 14:44:00', 'Unpaid'),
+(13, 'TRK-693113', 'Parcel', 'Tareq', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', 15.00, 'standard', 2100.00, 'Cash (Sender)', 'picked_up', 6, 2, '2025-12-19 08:33:23', '2025-12-19 09:11:32', 'Unpaid'),
+(14, 'TRK-592087', 'Parcel', 'Tareq', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', '93, Bernaiya, Shahrasti, Chandpur', 12.00, 'standard', 960.00, 'Cash (Receiver)', 'delivered', 6, 4, '2025-12-19 12:20:49', '2025-12-19 15:50:20', 'Unpaid'),
+(15, 'TRK-541989', 'Parcel', 'Sachinoor Sachi', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', '93, Bernaiya, Shahrasti, Chandpur', 10.00, 'standard', 500.00, 'Cash (Receiver)', 'pending', NULL, 2, '2025-12-19 14:53:20', '2025-12-19 14:53:20', 'Unpaid'),
+(17, 'TRK-268218', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', 50.00, 'standard', 4000.00, 'Cash (Sender)', 'pending', NULL, 2, '2025-12-19 15:05:38', '2025-12-19 15:05:38', 'Unpaid'),
+(18, 'TRK-811820', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'Dhanmondi', 50.00, 'standard', 2500.00, '2Checkout', '', 6, 2, '2025-12-19 15:11:57', '2025-12-20 20:35:21', 'Unpaid'),
+(19, 'TRK-755407', 'Parcel', 'rider', '01715540895', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801901025151', 'House 8,9,10/3, 3rd Floor Free School Street', 150.00, 'standard', 7500.00, 'bkash', 'delivered', 6, 1, '2025-12-19 15:30:44', '2025-12-20 20:34:58', 'Unpaid'),
+(20, 'TRK-200962', 'Parcel', 'Tareq', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'Chittagong', 120.00, 'standard', 14400.00, 'bkash', 'out_for_delivery', NULL, 2, '2025-12-20 20:33:08', '2025-12-20 20:34:39', 'Unpaid'),
+(21, 'TRK-231142', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'Dhanmondi', 50.00, 'standard', 4000.00, 'bkash', 'in_transit', NULL, 3, '2025-12-20 20:33:30', '2025-12-20 20:34:09', 'Unpaid'),
+(22, 'TRK-721965', 'Parcel', 'Sachinoor', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'Sylhet', 1.50, 'standard', 120.00, 'bkash', 'pending', NULL, 3, '2025-12-20 20:36:04', '2025-12-20 20:36:04', 'Unpaid'),
+(23, 'TRK-869471', 'Parcel', 'Sachinoor Sachi', '01568993772', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801855457301', 'SHAH ALAM TOWER, SHAHIDULLAH KAISER ROAD; Feni Sadar Main PS; Feni-3900; Bangladesh', 54.00, 'standard', 4320.00, 'Cash (Receiver)', 'pending', 6, 2, '2025-12-20 20:36:24', '2025-12-20 21:02:38', 'Unpaid'),
+(24, 'TRK-951504', 'Parcel', 'Sachinoor Sachi', '01855457301', 'Dhanmondi', 'Shuvro Sajeeb', '+8801855457301', 'Dhaka', 50.00, 'standard', 5000.00, 'Cash (Sender)', 'pending', 6, 1, '2025-12-20 20:36:50', '2025-12-20 21:01:23', 'Unpaid'),
+(25, 'TRK-165303', 'Parcel', 'Gwendolyn Chaney', '+1 (172) 211-1964', 'Sapiente ea ut solut', 'Emmanuel Nunez', '+1 (597) 193-5474', 'Doloribus fugit rat', 85.00, 'standard', 21250.00, 'bkash', 'pending', NULL, 4, '2025-12-29 14:10:11', '2025-12-29 14:10:11', 'Unpaid'),
+(26, 'TRK-392177', 'Parcel', 'Allen Harmon', '+1 (187) 222-5517', 'Eos aspernatur possi', 'Donovan Schmidt', '+1 (849) 988-5982', 'Voluptatem A volupt', 86.00, 'standard', 12040.00, '2Checkout', 'pending', NULL, 2, '2025-12-29 14:10:24', '2025-12-29 14:10:24', 'Unpaid'),
+(27, 'TRK-787840', 'Parcel', 'Belle Bowers', '+1 (134) 823-7736', 'Sunt optio accusam', 'Lee George', '+1 (211) 392-2102', 'Esse architecto et ', 87.00, 'standard', 6960.00, 'Cash (Sender)', 'pending', NULL, 1, '2025-12-29 14:11:10', '2025-12-29 14:11:10', 'Unpaid'),
+(28, 'TRK-292654', 'Parcel', 'Duncan Clay', '+1 (118) 649-6858', 'Dicta laboriosam qu', 'Mara Barr', '+1 (338) 712-7312', 'Nisi suscipit rem ve', 55.00, 'standard', 6600.00, '2Checkout', 'pending', NULL, 5, '2025-12-29 14:37:58', '2025-12-29 14:37:58', 'Unpaid'),
+(29, 'TRK-907830', 'Parcel', 'Bertha Humphrey', '+1 (143) 242-7887', 'Ut omnis laudantium', 'Basia Caldwell', '+1 (779) 897-9021', 'Elit occaecat iure ', 59.00, 'standard', 4720.00, 'amarpay', 'pending', NULL, 3, '2025-12-29 14:43:22', '2025-12-29 14:43:22', 'Unpaid'),
+(30, 'TRK-505042', 'Parcel', 'Amir Camacho', '+1 (815) 495-7584', 'Veniam in dolore no', 'Quinn Padilla', '+1 (292) 203-4082', 'Tenetur temporibus v', 38.00, 'standard', 5700.00, 'amarpay', 'pending', NULL, 1, '2025-12-29 14:44:57', '2025-12-29 14:44:57', 'Unpaid'),
+(31, 'TRK-341690', 'Parcel', 'Kyra Rasmussen', '+1 (832) 409-2733', 'Debitis cumque quisq', 'Adele Giles', '+1 (133) 811-2211', 'Laborum in ea conseq', 66.00, 'standard', 3300.00, 'amarpay', 'pending', NULL, 4, '2025-12-29 14:45:45', '2025-12-29 14:45:50', 'Paid'),
+(32, 'TRK-777920', 'Parcel', 'Hasad Gentry', '+1 (654) 719-1912', 'Enim cum consequatur', 'Shoshana Spencer', '+1 (362) 137-9145', 'Nisi sint repellendu', 29.00, 'standard', 2320.00, 'amarpay', 'pending', NULL, 4, '2025-12-29 14:50:10', '2025-12-29 14:50:10', 'Unpaid'),
+(33, 'TRK-148716', 'Parcel', 'Reed Contreras', '+1 (492) 839-4653', 'Ut omnis aliquid ea ', 'Ivan Pierce', '+1 (223) 527-4559', 'Qui earum cupidatat ', 78.00, 'standard', 9360.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 14:50:17', '2025-12-29 14:50:17', 'Unpaid'),
+(34, 'TRK-626316', 'Parcel', 'Brennan Dillard', '+1 (678) 609-4599', 'Magna et aut laudant', 'Lars Benson', '+1 (957) 926-1263', 'Vel qui illo dicta u', 98.00, 'standard', 9800.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 14:50:24', '2025-12-29 14:50:24', 'Unpaid'),
+(35, 'TRK-589126', 'Parcel', 'Eugenia Martin', '+1 (675) 671-3393', 'Earum in beatae Nam ', 'Walker Hyde', '+1 (658) 464-9153', 'Autem ab elit conse', 47.00, 'standard', 6580.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 14:50:46', '2025-12-29 14:50:51', 'Paid'),
+(36, 'TRK-211957', 'Parcel', 'Reed Contreras', '+1 (492) 839-4653', 'Ut omnis aliquid ea ', 'Ivan Pierce', '+1 (223) 527-4559', 'Qui earum cupidatat ', 78.00, 'standard', 9360.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 14:54:15', '2025-12-29 14:54:15', 'Unpaid'),
+(37, 'TRK-397279', 'Parcel', 'Orla Hobbs', '+1 (631) 907-1574', 'Iste quia qui delect', 'Christopher Nixon', '+1 (681) 124-8008', 'Eu commodo sunt nul', 90.00, 'standard', 13500.00, 'amarpay', 'pending', NULL, 1, '2025-12-29 14:56:21', '2025-12-29 14:56:29', 'Paid'),
+(38, 'TRK-527205', 'Parcel', 'Jaquelyn Horn', '+1 (881) 303-1246', 'Iure sit sit qui v', 'Hashim Park', '+1 (514) 488-8631', 'Officia consequat A', 48.00, 'standard', 4800.00, '2Checkout', 'pending', NULL, 2, '2025-12-29 14:57:54', '2025-12-29 14:57:54', 'Unpaid'),
+(39, 'TRK-172388', 'Parcel', 'Angelica Vega', '+1 (947) 199-4581', 'Ipsa saepe repudian', 'Solomon Webb', '+1 (211) 661-9678', 'Nam ea natus itaque ', 38.00, 'standard', 5320.00, 'amarpay', 'pending', NULL, 1, '2025-12-29 14:58:13', '2025-12-29 14:58:18', 'Paid'),
+(40, 'TRK-355916', 'Parcel', 'Cameron Haney', '+1 (894) 347-1195', 'Esse et non et labo', 'Julie Townsend', '+1 (853) 517-6371', 'Aut laborum et aliqu', 89.00, 'standard', 7120.00, 'amarpay', 'pending', NULL, 1, '2025-12-29 14:58:34', '2025-12-29 14:58:39', 'Paid'),
+(41, 'TRK-300363', 'Parcel', 'Hollee Ballard', '+1 (819) 557-4598', 'Incidunt dicta dese', 'Merritt Bradley', '+1 (408) 493-4852', 'Eiusmod voluptas in ', 64.00, 'standard', 5120.00, '2Checkout', 'pending', NULL, 1, '2025-12-29 14:59:27', '2025-12-29 14:59:27', 'Unpaid'),
+(42, 'TRK-422814', 'Parcel', 'Marny Simpson', '+1 (475) 743-9944', 'A quam odio aut poss', 'Lacy Weeks', '+1 (533) 239-3181', 'Voluptas aliquid qui', 15.00, 'standard', 3000.00, 'amarpay', 'pending', NULL, 3, '2025-12-29 14:59:34', '2025-12-29 14:59:42', 'Paid'),
+(43, 'TRK-186080', 'Parcel', 'Ryder Harmon', '+1 (334) 854-1091', 'Eius obcaecati modi ', 'Catherine Olson', '+1 (388) 552-1647', 'Perferendis et cillu', 2.00, 'standard', 160.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 15:01:18', '2025-12-29 15:01:24', 'Paid'),
+(44, 'TRK-161567', 'Parcel', 'Price Figueroa', '+1 (314) 533-4334', 'Temporibus quaerat e', 'Jermaine Roberts', '+1 (817) 729-2049', 'Necessitatibus porro', 26.00, 'standard', 5200.00, 'amarpay', 'pending', NULL, 4, '2025-12-29 15:03:00', '2025-12-29 15:03:05', 'Paid'),
+(45, 'TRK-167991', 'Parcel', 'Ross Fry', '+1 (503) 433-2923', 'Do minus nesciunt r', 'Erich Martinez', '+1 (504) 615-4772', 'Sequi eos fugiat odi', 28.00, 'standard', 1400.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 15:04:15', '2025-12-29 15:04:20', 'Paid'),
+(46, 'TRK-702586', 'Parcel', 'S', '+1 (127) 132-4346', 'Et quia est reiciend', 'Camilla Morton', '+1 (613) 265-3755', 'Vel quia explicabo ', 41.00, 'standard', 4920.00, 'amarpay', 'pending', NULL, 4, '2025-12-29 15:05:55', '2025-12-29 15:06:00', 'Paid'),
+(47, 'TRK-879400', 'Parcel', 'Melinda Goodman', '+1 (352) 986-9882', 'Aperiam fugiat quia ', 'Hamilton Mckinney', '+1 (801) 242-2525', 'Do quis consequuntur', 77.00, 'standard', 9240.00, 'amarpay', 'pending', NULL, 3, '2025-12-29 15:06:48', '2025-12-29 15:06:52', 'Paid'),
+(48, 'TRK-946003', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'House 8,9,10/3, 3rd Floor Free School Street', 999.99, 'standard', 4188240.00, 'amarpay', 'pending', NULL, 2, '2025-12-29 15:07:51', '2025-12-29 15:07:51', 'Unpaid'),
+(49, 'TRK-244009', 'Parcel', 'Jade Watkins', '+1 (901) 615-2255', 'Fugit tenetur quide', 'Lois Preston', '+1 (824) 132-1006', 'Quos sit amet ulla', 24.00, 'standard', 2400.00, 'amarpay', 'pending', NULL, 3, '2025-12-29 15:08:06', '2025-12-29 15:08:12', 'Paid'),
+(50, 'TRK-281599', 'Parcel', 'Uma Turner', '+1 (549) 302-3068', 'Eligendi eius eius c', 'Erasmus Newman', '+1 (807) 836-1864', 'Sunt quia optio est', 59.00, 'standard', 4720.00, 'amarpay', 'pending', NULL, 3, '2025-12-29 15:08:42', '2025-12-29 15:08:42', 'Unpaid'),
+(51, 'TRK-589743', 'Parcel', 'Emery Sargent', '+1 (868) 578-2954', 'Et qui nihil volupta', 'Charde Sykes', '+1 (568) 162-3419', 'Voluptatum deleniti ', 19.00, 'standard', 2850.00, 'amarpay', 'pending', NULL, 5, '2025-12-29 15:09:36', '2025-12-29 15:09:36', 'Unpaid'),
+(52, 'TRK-162540', 'Parcel', 'Darryl Benjamin', '+1 (223) 991-6133', 'Velit consequuntur n', 'Cyrus Best', '+8801568993772', 'Aut mollitia veritat', 100.00, 'standard', 10000.00, 'Cash (Sender)', 'pending', NULL, 2, '2025-12-29 15:10:21', '2025-12-29 15:10:21', 'Unpaid'),
+(53, 'TRK-932294', 'Parcel', 'Kenneth Kramer', '+1 (139) 174-4061', 'Qui molestias sit qu', 'Nathaniel Hicks', '+1 (257) 528-1632', 'Totam molestiae veri', 84.00, 'standard', 6720.00, 'amarpay', 'pending', NULL, 5, '2026-01-03 16:49:07', '2026-01-03 16:49:07', 'Unpaid'),
+(54, 'TRK-612639', 'Parcel', 'Keely Wilkinson', '+1 (682) 112-7741', 'Consequuntur dolorem', 'Otto Molina', '+1 (825) 243-9135', 'Quia voluptates id a', 74.00, 'standard', 10360.00, 'amarpay', 'pending', NULL, 4, '2026-01-03 16:49:18', '2026-01-03 16:49:18', 'Unpaid'),
+(55, 'TRK-945427', 'Parcel', 'Hamish Holt', '+1 (815) 964-8541', 'Labore nemo harum no', 'Jennifer Gentry', '+1 (736) 633-7956', 'Incididunt est perfe', 92.00, 'standard', 18400.00, 'amarpay', 'pending', NULL, 4, '2026-01-03 16:49:55', '2026-01-03 16:49:55', 'Unpaid'),
+(56, 'TRK-769868', 'Parcel', 'Sachinoor Sachi', '01719721387', '93, Bernaiya, Shahrasti, Chandpur', 'Tanjimul Islam Tareq', '+8801568993772', 'Dhanmondi', 10.00, 'standard', 800.00, 'amarpay', 'pending', NULL, 3, '2026-01-03 16:50:12', '2026-01-03 16:50:12', 'Unpaid'),
+(57, 'TRK-681010', 'Parcel', 'Tate Guerra', '+1 (107) 687-1263', 'Incididunt necessita', 'Kay Richard', '+1 (386) 426-4676', 'Perspiciatis ex ali', 24.00, 'standard', 2400.00, 'amarpay', 'pending', NULL, 2, '2026-01-03 16:53:04', '2026-01-03 16:53:10', 'Paid'),
+(58, 'TRK-852529', 'Parcel', 'Yetta Nieves', '+1 (571) 753-9418', 'Dolor optio est lor', 'Hyacinth Vaughan', '+1 (663) 667-4135', 'Quia labore sit dele', 11.00, 'standard', 2750.00, 'amarpay', 'pending', NULL, 5, '2026-01-03 16:54:06', '2026-01-03 16:54:13', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -213,7 +252,6 @@ INSERT INTO `parcel_history` (`history_id`, `parcel_id`, `status`, `description`
 (42, 10, 'In Transit', 'Shipment is on the way.', 'On Route', 12, '2025-12-19 12:26:42'),
 (43, 14, 'In Transit', 'Shipment is on the way.', 'On Route', 12, '2025-12-19 12:27:00'),
 (44, 15, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: Cash (Receiver)', 'Main Hub', 11, '2025-12-19 14:53:20'),
-(45, 16, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: Cash (Sender)', 'Main Hub', 11, '2025-12-19 14:54:23'),
 (46, 17, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: Cash (Sender)', 'Main Hub', 11, '2025-12-19 15:05:38'),
 (47, 18, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: 2Checkout', 'Main Hub', 11, '2025-12-19 15:11:57'),
 (48, 18, 'Courier Assigned', 'Shipment assigned to courier: rider', 'Dispatch Center', NULL, '2025-12-19 15:13:42'),
@@ -221,7 +259,65 @@ INSERT INTO `parcel_history` (`history_id`, `parcel_id`, `status`, `description`
 (50, 14, 'Delivered', 'Package delivered successfully.', 'On Route', 12, '2025-12-19 15:50:20'),
 (51, 10, 'Picked Up', 'Courier has picked up the parcel.', 'On Route', 12, '2025-12-19 15:50:38'),
 (52, 10, 'Out For Delivery', 'Courier is out for delivery.', 'On Route', 12, '2025-12-19 15:50:44'),
-(53, 19, 'Courier Assigned', 'Shipment assigned to courier: Hasibul Hasan', 'Dispatch Center', NULL, '2025-12-20 06:07:31');
+(53, 19, 'Courier Assigned', 'Shipment assigned to courier: Hasibul Hasan', 'Dispatch Center', NULL, '2025-12-20 06:07:31'),
+(54, 20, 'Order Placed', 'Order placed. Status: Pending. Type: Document, Weight: 120KG, Loc: Outside. Method: bkash', 'Main Hub', NULL, '2025-12-20 20:33:08'),
+(55, 21, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel, Weight: 50KG, Loc: Inside. Method: bkash', 'Main Hub', NULL, '2025-12-20 20:33:30'),
+(56, 21, 'In Transit', '', 'Dhaka', NULL, '2025-12-20 20:34:09'),
+(57, 20, 'Out For Delivery', '', 'Cumilla', NULL, '2025-12-20 20:34:39'),
+(58, 19, 'Delivered', '', 'Motijheel', NULL, '2025-12-20 20:34:58'),
+(59, 18, 'Failed', '', 'Coxs Bazar', NULL, '2025-12-20 20:35:21'),
+(60, 22, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel, Weight: 1.5KG, Loc: Inside. Method: bkash', 'Main Hub', NULL, '2025-12-20 20:36:04'),
+(61, 23, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel, Weight: 54KG, Loc: Inside. Method: Cash (Receiver)', 'Main Hub', NULL, '2025-12-20 20:36:24'),
+(62, 24, 'Order Placed', 'Order placed. Status: Pending. Type: Document, Weight: 50KG, Loc: Inside. Method: Cash (Sender)', 'Main Hub', NULL, '2025-12-20 20:36:50'),
+(63, 10, 'Delivered', 'Package delivered successfully.', 'On Route', 12, '2025-12-20 20:56:36'),
+(64, 24, 'Rider Assigned', 'Shipment assigned to courier: Hasibul Hasan', 'Dispatch Center', NULL, '2025-12-20 21:01:24'),
+(65, 23, 'Rider Assigned', 'Shipment assigned to rider: Hasibul Hasan', 'Dispatch Center', NULL, '2025-12-20 21:02:39'),
+(66, 23, 'Rider Assigned', 'Shipment assigned to rider: Hasibul Hasan', 'Dispatch Center', NULL, '2025-12-21 12:07:56'),
+(67, 25, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: bkash', 'Main Hub', 11, '2025-12-29 14:10:11'),
+(68, 26, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: 2Checkout', 'Main Hub', 11, '2025-12-29 14:10:24'),
+(69, 27, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: Cash (Sender)', 'Main Hub', 11, '2025-12-29 14:11:10'),
+(70, 28, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: 2Checkout', 'Main Hub', 11, '2025-12-29 14:37:58'),
+(71, 29, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:43:22'),
+(72, 30, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:44:57'),
+(73, 31, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:45:45'),
+(74, 31, 'Payment Verified', 'Payment successful via Aamarpay', 'Online', NULL, '2025-12-29 14:45:50'),
+(75, 32, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:50:10'),
+(76, 33, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:50:17'),
+(77, 34, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:50:24'),
+(78, 35, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:50:46'),
+(79, 36, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:54:15'),
+(80, 37, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:56:21'),
+(81, 37, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-397279', 'Online', NULL, '2025-12-29 14:56:29'),
+(82, 38, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: 2Checkout', 'Main Hub', 11, '2025-12-29 14:57:54'),
+(83, 39, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:58:13'),
+(84, 40, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:58:34'),
+(85, 40, 'Payment Verified', 'Payment successful via Aamarpay', 'Online', NULL, '2025-12-29 14:58:39'),
+(86, 41, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: 2Checkout', 'Main Hub', 11, '2025-12-29 14:59:27'),
+(87, 42, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 14:59:35'),
+(88, 42, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-422814', 'Online', NULL, '2025-12-29 14:59:42'),
+(89, 43, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:01:18'),
+(90, 43, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-186080', 'Online', NULL, '2025-12-29 15:01:24'),
+(91, 44, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:03:00'),
+(92, 44, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-161567', 'Online', NULL, '2025-12-29 15:03:05'),
+(93, 45, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:04:15'),
+(94, 45, 'Payment Verified', 'Payment successful via Aamarpay', 'Online', NULL, '2025-12-29 15:04:20'),
+(95, 46, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:05:55'),
+(96, 47, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:06:48'),
+(97, 47, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-879400', 'Online', NULL, '2025-12-29 15:06:52'),
+(98, 48, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:07:51'),
+(99, 49, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:08:06'),
+(100, 49, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-244009', 'Online', NULL, '2025-12-29 15:08:12'),
+(101, 50, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:08:42'),
+(102, 51, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2025-12-29 15:09:36'),
+(103, 52, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: Cash (Sender)', 'Main Hub', 11, '2025-12-29 15:10:21'),
+(104, 53, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2026-01-03 16:49:07'),
+(105, 54, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2026-01-03 16:49:18'),
+(106, 55, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2026-01-03 16:49:55'),
+(107, 56, 'Order Placed', 'Order placed. Status: Pending. Type: Document. Method: amarpay', 'Main Hub', 11, '2026-01-03 16:50:12'),
+(108, 57, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2026-01-03 16:53:04'),
+(109, 57, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-681010', 'Online', NULL, '2026-01-03 16:53:10'),
+(110, 58, 'Order Placed', 'Order placed. Status: Pending. Type: Parcel. Method: amarpay', 'Main Hub', 11, '2026-01-03 16:54:06'),
+(111, 58, 'Payment Verified', 'Payment Verified via Aamarpay. Trans ID: TRK-852529', 'Online', NULL, '2026-01-03 16:54:14');
 
 -- --------------------------------------------------------
 
@@ -268,12 +364,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `password_hash`, `phone`, `role`, `department`, `designation`, `description`, `created_at`, `profile_image`, `status`, `permission_group`, `location`, `reset_token`, `reset_token_expire`) VALUES
-(1, 'Tanjimul Islam Tareq', 'engineertareqbd@gmail.com', '$2y$10$T7p1GZVfuyoDoeH9hnuLUOcQv5gf/1HFJKXBGAKSp.ONFHylPrE4e', '+8801568993772', 'admin', 'IT', 'Executive', 'Head of IT', '2025-12-14 16:43:15', 'user_1765984912.png', 'Active', 'Full Access', 'Unknown', '6161400761ce560b8f5636dad8955aff5d4e502f5c23b89017592b681a95435375a36b3e1cd8610fd4c0f54cf828e9125735', '2025-12-17 23:12:49'),
+(1, 'Tanjimul Islam Tareq', 'admin@gmail.com', '$2y$10$mpisD2p.3MoOvLwnmYyKUenV2sV83tvuPNzmiKuTDNao12NFaYMdq', '+8801568993772', 'admin', 'IT', 'Executive', 'Head of IT', '2025-12-14 16:43:15', 'user_1765984912.png', 'Active', 'Full Access', 'Unknown', '6161400761ce560b8f5636dad8955aff5d4e502f5c23b89017592b681a95435375a36b3e1cd8610fd4c0f54cf828e9125735', '2025-12-17 23:12:49'),
 (6, 'Tanjimul Islam Tareq', 'karimuddddggl@gmail.com', '$2y$10$OAlJPqnd4R9MrkX5uUDP4.oKNpVo5NcbbMvewzTTZxIB1ErpSfZia', '01568993772', 'admin', 'IT', 'Developer', '', '2025-12-14 16:46:06', 'user_1765983892.png', 'Active', 'View Only', 'Unknown', NULL, NULL),
 (7, 'ABS Sabbir', 'abs@gmail.com', '$2y$10$lJHeQwy4gtGhTnGzSPnKEeeGdbxxGPTfHFc5e4.uWG6HkG1Qplaxu', '01309029797', 'staff', 'Sales', 'Executive', 'Sales Exicutive', '2025-12-17 14:56:37', 'user_1765983397.png', 'Active', 'View Only', 'Unknown', NULL, NULL),
 (10, 'Shuvro Sajeeb', 'kafhrdfrirhystrhmula@gmail.com', '$2y$10$zDKGXjafB346GX.kQjvMmOAp.nq3Bhlphy8OpREa64LGvPsPcXVBK', '01795611971', 'customer', '', '', '', '2025-12-17 15:24:06', 'user_1765985046.jpg', 'Active', 'View Only', 'Unknown', NULL, NULL),
-(11, 'Sachinoor Sachi', 'sachinoor@gmail.com', '$2y$10$4mJwoWzl5CrST.dxoGADceKUsKM.yWmlHX/yO5skhG02SrHWOXiwm', '01719721387', 'customer', '', '', '', '2025-12-17 16:13:37', NULL, 'Active', 'View Only', 'Unknown', NULL, NULL),
-(12, 'Hasibul Hasan', 'rider@gmail.com', '$2y$10$/mxdkkvqL/rDh5mAwsEB/umRIiKF7z9cQAbzRlPgsKgVj1fXp08iG', '01715540895', 'customer', 'Sales', '', '', '2025-12-18 14:05:31', 'user_1766159265.jpg', 'Active', 'View Only', 'Unknown', NULL, NULL),
+(11, 'Sachinoor Sachi', 'user@gmail.com', '$2y$10$wSol4yVfJB54q6mU8VgvwuexmbwnHx2ht3/uRiKI759Fp/C8/Bu7a', '01719721387', 'customer', '', '', '', '2025-12-17 16:13:37', NULL, 'Active', 'View Only', 'Unknown', NULL, NULL),
+(12, 'Hasibul Hasan', 'rider@gmail.com', '$2y$10$KLiMDbllVwDlqDFOrRG05uEOhRnh.uIlTnpV9tM34mmLRqdRNEqd6', '01715540895', 'staff', 'Sales', '', '', '2025-12-18 14:05:31', 'user_1766159265.jpg', 'Active', 'View Only', 'Unknown', NULL, NULL),
 (13, 'Sachinoor Sachi', 'hfkhtfh@gmail.com', '$2y$10$Xcam.X0S9BEK/jywHvc2luRxp1T9UpEJlI760Lx4ckcWTkEqilgLO', NULL, 'customer', NULL, NULL, NULL, '2025-12-19 12:27:47', NULL, 'Active', 'View Only', 'Unknown', NULL, NULL);
 
 --
@@ -356,13 +452,13 @@ ALTER TABLE `delivery_packages`
 -- AUTO_INCREMENT for table `parcels`
 --
 ALTER TABLE `parcels`
-  MODIFY `parcel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `parcel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `parcel_history`
 --
 ALTER TABLE `parcel_history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `payments`
