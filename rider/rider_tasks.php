@@ -2,7 +2,7 @@
 require 'db.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// 1. SECURITY: Check if logged in
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -11,7 +11,6 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $message = "";
 
-// 2. GET COURIER ID
 try {
     $stmt = $pdo->prepare("SELECT courier_id FROM couriers WHERE user_id = ?");
     $stmt->execute([$user_id]);
@@ -24,12 +23,10 @@ try {
     die("Error: " . $e->getMessage());
 }
 
-// 3. HANDLE STATUS UPDATES
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_parcel'])) {
     $parcel_id = $_POST['parcel_id'];
     $new_status = $_POST['parcel_status'];
     
-    // Map status to a readable description for history
     $desc_map = [
         'picked_up' => 'Courier has picked up the parcel.',
         'in_transit' => 'Shipment is on the way.',
@@ -42,11 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_parcel'])) {
     try {
         $pdo->beginTransaction();
 
-        // Update Parcel Status
         $stmt = $pdo->prepare("UPDATE parcels SET current_status = ? WHERE parcel_id = ? AND assigned_courier_id = ?");
         $stmt->execute([$new_status, $parcel_id, $courier_id]);
 
-        // Add History Entry
         $stmt = $pdo->prepare("INSERT INTO parcel_history (parcel_id, status, description, location, updated_by_user_id) VALUES (?, ?, ?, 'On Route', ?)");
         $stmt->execute([$parcel_id, ucwords(str_replace('_', ' ', $new_status)), $desc, $user_id]);
 
@@ -62,8 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_parcel'])) {
     }
 }
 
-// 4. FETCH ASSIGNED TASKS (Showing ALL active tasks)
-// We only exclude 'delivered' and 'cancelled' to ensure you see everything else.
 try {
     $sql = "SELECT * FROM parcels 
             WHERE assigned_courier_id = ? 

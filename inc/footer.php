@@ -38,7 +38,7 @@
             </div>
             <hr class="border-secondary my-4">
             <div class="text-center small">
-                &copy; 2025 Desh Courier Logistics. All rights reserved.
+                &copy; 2026 Desh Courier Logistics. All rights reserved.
             </div>
         </div>
     </footer>

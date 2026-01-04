@@ -9,29 +9,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     if (!empty($email) && !empty($password)) {
-        // 1. Check User in Database
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // 2. Verify Password
-            // Your database screenshot shows hashed passwords, so we use password_verify()
-            if (password_verify($password, $user['password_hash'])) { // Changed 'password' to 'password_hash' based on your screenshot column name
+            if (password_verify($password, $user['password_hash'])) { 
                 
-                // 3. Set Session Variables
+       
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['full_name'] = $user['full_name'];
                 $_SESSION['role'] = $user['role']; 
-
-                // 4. Redirect based on Role (Check if they are a courier)
                 $stmtCourier = $pdo->prepare("SELECT * FROM couriers WHERE user_id = ?");
                 $stmtCourier->execute([$user['user_id']]);
                 
                 if ($stmtCourier->fetch()) {
                     header("Location: index.php");
                 } else {
-                    header("Location: index.html"); // Or admin dashboard
+                    header("Location: index.html"); 
                 }
                 exit;
 
