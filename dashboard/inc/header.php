@@ -173,9 +173,6 @@
           <li>
             <a href="index.php"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Analytics</a>
           </li>
-          <li>
-            <a href="#"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
-          </li>
           
           
         </ul>
@@ -193,6 +190,19 @@
           </li>
           <li>
             <a href="create_parcel.php"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Create Shipment</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="mdi:courier-fast" class="menu-icon"></iconify-icon>
+          
+          <span>Invoice</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="invoices.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+              Invoice List</a>
           </li>
         </ul>
       </li>
@@ -558,7 +568,7 @@
               class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
               <div>
                 <h6 class="text-lg text-primary-light fw-semibold mb-2">Robiul Hasan</h6>
-                <span class="text-secondary-light fw-medium text-sm">Admin</span>
+                <span class="text-secondary-light fw-medium text-sm">Client</span>
               </div>
               <button type="button" class="hover-text-danger">
                 <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>

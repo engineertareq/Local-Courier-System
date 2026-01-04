@@ -2,9 +2,15 @@
 session_start();
 require 'admin/db.php';
 
-// If user is already logged in, redirect to dashboard
+// If user is already logged in, redirect based on role
 if (isset($_SESSION['user_id'])) {
-    header("Location: admin/index.php"); // Change to your dashboard file
+    if ($_SESSION['role'] === 'rider' || $_SESSION['role'] === 'staff') {
+        header("Location: rider/index.php");
+    } elseif ($_SESSION['role'] === 'customer') {
+        header("Location: dashboard/index.php");
+    } else {
+        header("Location: admin/index.php");
+    }
     exit();
 }
 
@@ -39,9 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['profile_image'] = $user['profile_image'];
 
-                    // Redirect based on role (Optional customization)
+                    // --- REDIRECT LOGIC ---
                     if ($user['role'] === 'customer') {
                         header("Location: dashboard/index.php");
+                    } elseif ($user['role'] === 'rider' || $user['role'] === 'staff') {
+                        header("Location: rider/index.php");
                     } else {
                         header("Location: admin/index.php");
                     }
@@ -68,14 +76,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     
     <style>
-        /* Mimicking your dashboard theme styles */
-        body { background-color: #f5f7fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        body { 
+            background-color: #f5f7fa; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            /* FLEX SETTINGS */
+            display: flex; 
+            flex-direction: row; 
+            flex-wrap: wrap;     
+            align-items: center; /* Centers vertically */
+            justify-content: center; /* Centers horizontally */
+            min-height: 100vh; 
+            gap: 30px; 
+            padding: 40px;
+        }
+        
         .radius-12 { border-radius: 12px !important; }
         .radius-8 { border-radius: 8px !important; }
-        .text-primary-light { color: #4834d4; } /* Adjust to your specific primary color */
+        .text-primary-light { color: #4834d4; }
         .text-secondary-light { color: #6c757d; }
-        .bg-hover-primary-100:hover { background-color: #e0e7ff; }
-        .auth-card { width: 100%; max-width: 450px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        
+        .auth-card {
+            width: 100%;
+            /* FIXED: Reduced width to prevent stretching */
+            max-width: 380px; 
+            min-width: 300px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            background: white;
+            /* Removed flex: 1 to stop it from growing too wide */
+        }
+        
         .btn-primary { background-color: #4834d4; border-color: #4834d4; }
         .btn-primary:hover { background-color: #3c2bb6; border-color: #3c2bb6; }
         .form-control:focus { box-shadow: none; border-color: #4834d4; }
@@ -90,23 +120,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle w-64-px h-64-px mb-3" style="width: 64px; height: 64px;">
                     <iconify-icon icon="solar:user-circle-bold-duotone" class="text-4xl" style="font-size: 32px; color: #4834d4;"></iconify-icon>
                 </div>
-                <h4 class="fw-bold mb-1">Welcome Back!</h4>
-                <p class="text-secondary-light text-sm">Sign in to your account to continue</p>
+                <h4 class="fw-bold mb-1">Admin Login</h4>
+                <p class="text-secondary-light text-sm">Sign in as Admin</p>
             </div>
 
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger d-flex align-items-center gap-2 p-2 text-sm radius-8 mb-3" role="alert">
-                    <iconify-icon icon="solar:danger-circle-bold-duotone" class="text-lg"></iconify-icon>
                     <?= $error; ?>
                 </div>
             <?php endif; ?>
 
             <form method="POST" action="">
-                
                 <div class="mb-3">
-                    <label for="email" class="form-label fw-semibold text-primary-light text-sm">Email Address</label>
+                    <label class="form-label fw-semibold text-primary-light text-sm">Email Address</label>
                     <div class="position-relative">
-                        <input type="email" name="email" class="form-control radius-8 ps-5 py-2" id="email" placeholder="Enter your email" required>
+                        <input type="email" name="email" value="admin@gmail.com" class="form-control radius-8 ps-5 py-2" placeholder="Enter your email" required>
                         <span class="position-absolute start-0 top-50 translate-middle-y ms-3 text-secondary-light">
                             <iconify-icon icon="solar:letter-linear" class="text-xl"></iconify-icon>
                         </span>
@@ -114,55 +142,125 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label fw-semibold text-primary-light text-sm">Password</label>
+                    <label class="form-label fw-semibold text-primary-light text-sm">Password</label>
                     <div class="position-relative">
-                        <input type="password" name="password" class="form-control radius-8 ps-5 py-2" id="password" placeholder="Enter your password" required>
+                        <input type="password" name="password" value="admin" class="form-control radius-8 ps-5 py-2 password-input" placeholder="Enter your password" required>
                         <span class="position-absolute start-0 top-50 translate-middle-y ms-3 text-secondary-light">
                             <iconify-icon icon="solar:lock-password-linear" class="text-xl"></iconify-icon>
                         </span>
                         <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer text-secondary-light toggle-password" style="cursor: pointer;">
-                            <iconify-icon icon="solar:eye-closed-linear" id="eyeIcon" class="text-xl"></iconify-icon>
+                            <iconify-icon icon="solar:eye-closed-linear" class="text-xl"></iconify-icon>
                         </span>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="rememberMe">
-                        <label class="form-check-label text-secondary-light text-sm" for="rememberMe">Remember me</label>
+                <button type="submit" class="btn btn-primary w-100 radius-8 py-2 fw-medium text-md">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card auth-card radius-12 p-4">
+        <div class="card-body">
+            
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle w-64-px h-64-px mb-3" style="width: 64px; height: 64px;">
+                    <iconify-icon icon="solar:user-circle-bold-duotone" class="text-4xl" style="font-size: 32px; color: #4834d4;"></iconify-icon>
+                </div>
+                <h4 class="fw-bold mb-1">Rider/Staff Login</h4>
+                <p class="text-secondary-light text-sm">Sign in as Rider</p>
+            </div>
+
+            <form method="POST" action="">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-primary-light text-sm">Email Address</label>
+                    <div class="position-relative">
+                        <input type="email" name="email" value="rider@gmail.com" class="form-control radius-8 ps-5 py-2" placeholder="Enter your email" required>
+                        <span class="position-absolute start-0 top-50 translate-middle-y ms-3 text-secondary-light">
+                            <iconify-icon icon="solar:letter-linear" class="text-xl"></iconify-icon>
+                        </span>
                     </div>
-                    <a href="forgot_password.php" class="text-primary-light text-sm fw-medium text-decoration-none">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 radius-8 py-2 fw-medium text-md">
-                    Sign In
-                </button>
-
-                <div class="text-center mt-4 text-sm text-secondary-light">
-                    Don't have an account? 
-                    <a href="signup.php" class="text-primary-light fw-semibold text-decoration-none">Sign Up</a>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-primary-light text-sm">Password</label>
+                    <div class="position-relative">
+                        <input type="password" name="password" value="rider" class="form-control radius-8 ps-5 py-2 password-input" placeholder="Enter your password" required>
+                        <span class="position-absolute start-0 top-50 translate-middle-y ms-3 text-secondary-light">
+                            <iconify-icon icon="solar:lock-password-linear" class="text-xl"></iconify-icon>
+                        </span>
+                        <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer text-secondary-light toggle-password" style="cursor: pointer;">
+                            <iconify-icon icon="solar:eye-closed-linear" class="text-xl"></iconify-icon>
+                        </span>
+                    </div>
                 </div>
 
+                <button type="submit" class="btn btn-primary w-100 radius-8 py-2 fw-medium text-md">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card auth-card radius-12 p-4">
+        <div class="card-body">
+            
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle w-64-px h-64-px mb-3" style="width: 64px; height: 64px;">
+                    <iconify-icon icon="solar:user-circle-bold-duotone" class="text-4xl" style="font-size: 32px; color: #4834d4;"></iconify-icon>
+                </div>
+                <h4 class="fw-bold mb-1">User Login</h4>
+                <p class="text-secondary-light text-sm">Sign in as Customer</p>
+            </div>
+
+            <form method="POST" action="">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-primary-light text-sm">Email Address</label>
+                    <div class="position-relative">
+                        <input type="email" name="email" value="user@gmail.com" class="form-control radius-8 ps-5 py-2" placeholder="Enter your email" required>
+                        <span class="position-absolute start-0 top-50 translate-middle-y ms-3 text-secondary-light">
+                            <iconify-icon icon="solar:letter-linear" class="text-xl"></iconify-icon>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-primary-light text-sm">Password</label>
+                    <div class="position-relative">
+                        <input type="password" name="password" value="user" class="form-control radius-8 ps-5 py-2 password-input" placeholder="Enter your password" required>
+                        <span class="position-absolute start-0 top-50 translate-middle-y ms-3 text-secondary-light">
+                            <iconify-icon icon="solar:lock-password-linear" class="text-xl"></iconify-icon>
+                        </span>
+                        <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer text-secondary-light toggle-password" style="cursor: pointer;">
+                            <iconify-icon icon="solar:eye-closed-linear" class="text-xl"></iconify-icon>
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 radius-8 py-2 fw-medium text-md">Sign In</button>
             </form>
         </div>
     </div>
 
     <script>
-        const togglePassword = document.querySelector('.toggle-password');
-        const passwordInput = document.querySelector('#password');
-        const eyeIcon = document.querySelector('#eyeIcon');
+        // Select all toggle buttons
+        const toggleButtons = document.querySelectorAll('.toggle-password');
 
-        togglePassword.addEventListener('click', function () {
-            // Toggle the type attribute
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            
-            // Toggle the eye icon
-            if (type === 'password') {
-                eyeIcon.setAttribute('icon', 'solar:eye-closed-linear');
-            } else {
-                eyeIcon.setAttribute('icon', 'solar:eye-bold');
-            }
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Find the input field relative to the clicked button (in the same parent container)
+                const inputContainer = this.parentElement;
+                const passwordInput = inputContainer.querySelector('.password-input');
+                const icon = this.querySelector('iconify-icon');
+
+                // Toggle type
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle Icon
+                if (type === 'password') {
+                    icon.setAttribute('icon', 'solar:eye-closed-linear');
+                } else {
+                    icon.setAttribute('icon', 'solar:eye-bold');
+                }
+            });
         });
     </script>
 

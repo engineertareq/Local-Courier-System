@@ -10,8 +10,8 @@
                     <p class="lead mb-5 opacity-75">Reliable shipping solutions for your business. We ensure your package arrives safely and on time, every time.</p>
                     
                     <form action="parcel-track.php" method="GET" class="tracking-box">
-                        <input type="text" name="tracking_number" placeholder="Tracking ID (e.g. TRK-123)" required>
-                        <input type="text" name="phone_number" placeholder="Receiver Phone" required>
+                        <input type="text" name="tracking_number" value="TRK-507150" placeholder="Tracking ID (e.g. TRK-123)" required>
+                        <input type="text" name="phone_number" value="+8801568993772" placeholder="Receiver Phone" required>
                         <button type="submit">Track</button>
                     </form>
                     

@@ -198,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label">Sender Address</label>
+                  <label class="form-label">Pickup Address</label>
                   <div class="icon-field">
                     <span class="icon"><iconify-icon icon="solar:map-point-bold-duotone"></iconify-icon></span>
                      <input type="text" name="sender_address" class="form-control" value="<?= htmlspecialchars($currentUser['address'] ?? '') ?>" placeholder="Sender Address" required>
@@ -234,7 +234,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-12 mt-4"><h6 class="text-primary-light border-bottom pb-2">2. Logistics & Payment</h6></div>
 
                 <div class="col-md-6">
-                    <label class="form-label">Pickup Branch / Source</label>
+                    <label class="form-label">Nearest Branch</label>
                     <div class="icon-field">
                         <span class="icon"><iconify-icon icon="solar:buildings-bold-duotone"></iconify-icon></span>
                         <select name="branch_id" class="form-select" required>
