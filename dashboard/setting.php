@@ -2,15 +2,14 @@
 session_start();
 include 'db.php';
 
-// --- 1. ACCESS CONTROL ---
+
 if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'staff'])) {
-    // header("Location: login.php");
+
 }
 
 $message = "";
 $user_id = $_GET['id'] ?? null;
 
-// Fallback: If no ID provided in URL, show logged-in user (if available)
 if (!$user_id && isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } elseif (!$user_id) {
@@ -18,10 +17,7 @@ if (!$user_id && isset($_SESSION['user_id'])) {
     exit();
 }
 
-// --- 2. HANDLE FORM SUBMISSIONS ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    // A. HANDLE PROFILE UPDATE
     if (isset($_POST['action']) && $_POST['action'] == 'update_profile') {
         
         $full_name   = htmlspecialchars($_POST['full_name']);
@@ -31,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $designation = htmlspecialchars($_POST['designation']);
         $description = htmlspecialchars($_POST['description']);
         
-        // Image Upload Logic
+
         $image_sql = "";
         $params = [
             ':name'  => $full_name,
@@ -75,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // B. HANDLE PASSWORD CHANGE
+
     if (isset($_POST['action']) && $_POST['action'] == 'change_password') {
         $new_pass = $_POST['new_password'];
         $confirm_pass = $_POST['confirm_password'];
@@ -94,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// --- 3. FETCH USER DATA (Refresh after update) ---
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -104,7 +100,7 @@ if (!$user) {
     exit();
 }
 
-// Image Path Setup
+
 $img_src = "users_img/" . $user['profile_image'];
 if (empty($user['profile_image']) || !file_exists($img_src)) {
     $img_src = "assets/images/user-dummy.png";
@@ -335,7 +331,7 @@ if (empty($user['profile_image']) || !file_exists($img_src)) {
 <?php include 'inc/footer.php' ?>
 
 <script>
-    // ======================== Upload Image Start =====================
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -350,12 +346,8 @@ if (empty($user['profile_image']) || !file_exists($img_src)) {
     $("#imageUpload").change(function() {
         readURL(this);
     });
-    // ======================== Upload Image End =====================
-
-    // ================== Password Show Hide Js Start ==========
     function initializePasswordToggle(toggleSelector) {
         $(toggleSelector).on('click', function() {
-            // NOTE: Assuming you have remixicon loaded for 'ri-eye-line', if not, change class to 'fa-eye' or similar
             $(this).toggleClass("ri-eye-off-line"); 
             var input = $($(this).attr("data-toggle"));
             if (input.attr("type") === "password") {
@@ -366,5 +358,4 @@ if (empty($user['profile_image']) || !file_exists($img_src)) {
         });
     }
     initializePasswordToggle('.toggle-password');
-  // ========================= Password Show Hide Js End ===========================
 </script>

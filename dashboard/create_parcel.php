@@ -10,16 +10,14 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $message = "";
 
-// 0. Fetch Logged-in User Details (For Auto-fill)
+
 try {
     $userStmt = $pdo->prepare("SELECT * FROM users WHERE user_id = ?");
     $userStmt->execute([$user_id]);
     $currentUser = $userStmt->fetch(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
-    // Handle error
 }
 
-// 1. Fetch Dropdowns
 try {
     $stmt = $pdo->query("SELECT * FROM delivery_packages WHERE status = 'Active'");
     $packages = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,12 +29,10 @@ try {
     $branches = [];
 }
 
-// ... [Keep your top includes and fetches existing code] ...
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tracking_number = "TRK-" . rand(100000, 999999);
     
-    // Inputs
     $sender = $_POST['sender_name'];
     $sender_phone = $_POST['sender_phone'];
     $sender_address = $_POST['sender_address'];
@@ -50,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = floatval($_POST['weight']);
     $location = $_POST['location']; 
 
-    // Price Calculation
     $stmtPkg = $pdo->prepare("SELECT * FROM delivery_packages WHERE package_id = ?");
     $stmtPkg->execute([$package_id]);
     $selected_pkg = $stmtPkg->fetch();
@@ -65,8 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo->beginTransaction();
 
-        // 1. INSERT DATA (Default payment_status is 'Unpaid')
-        // Note: Added 'payment_status' column to SQL
         $sql = "INSERT INTO parcels 
                 (tracking_number, sender_name, sender_phone, sender_address, receiver_name, receiver_phone, receiver_address, weight_kg, price, payment_method, branch_id, current_status, payment_status, created_at) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'Unpaid', NOW())";
@@ -80,23 +73,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $parcel_id = $pdo->lastInsertId();
 
-        // Log History
         $desc = "Order placed. Status: Pending. Type: $parcel_type. Method: $payment_method";
         $stmtHistory = $pdo->prepare("INSERT INTO parcel_history (parcel_id, status, description, location, updated_by_user_id) VALUES (?, 'Order Placed', ?, 'Main Hub', ?)");
         $stmtHistory->execute([$parcel_id, $desc, $user_id]);
 
         $pdo->commit();
 
-        // --- PAYMENT LOGIC BRANCHING ---
+     
 
         if ($payment_method == 'amarpay') {
-            // == AAMARPAY REDIRECT LOGIC ==
             
             $payment_data = [
-                'store_id' => 'aamarpaytest', // Change to Live Store ID
-                'signature_key' => 'dbb74894e82415a2f7ff0ec3a97e4183', // Change to Live Key
+                'store_id' => 'aamarpaytest', 
+                'signature_key' => 'dbb74894e82415a2f7ff0ec3a97e4183', 
                 'cus_name' => $sender,
-                'cus_email' => 'customer@example.com', // You should add an email field or use dummy
+                'cus_email' => 'customer@example.com', 
                 'cus_phone' => $sender_phone,
                 'cus_add1' => $sender_address,
                 'cus_add2' => $sender_address,
@@ -104,16 +95,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'cus_country' => 'Bangladesh',
                 'amount' => $calculated_price,
                 'currency' => 'BDT',
-                'tran_id' => $tracking_number, // We use Tracking Number as Transaction ID
-                'success_url' => 'http://localhost/Projects/Local-Courier/dashboard/payment_success.php', // CHANGE THIS to your actual URL
-                'fail_url' => 'http://localhost/Projects/Local-Courier/dashboard/index.php?status=fail',
-                'cancel_url' => 'http://localhost/Projects/Local-Courier/dashboard/index.php?status=cancel',
+                'tran_id' => $tracking_number, 
+                'success_url' => 'http://localhost/TAREQ/Local-Courier-System/dashboard/payment_success.php', 
+                'fail_url' => 'http://localhost/TAREQ/Local-Courier-System/dashboard/fail.php',
+                'cancel_url' => 'http://localhost/TAREQ/Local-Courier-System/dashboard/index.php?status=cancel',
                 'desc' => 'Parcel Delivery Charge',
                 'type' => 'json'
             ];
 
-            // Send Request to Aamarpay
-            $url = 'https://sandbox.aamarpay.com/jsonpost.php'; // Change to https://secure.aamarpay.com/jsonpost.php for LIVE
+            $url = 'https://sandbox.aamarpay.com/jsonpost.php'; 
             
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -127,16 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = json_decode($response, true);
 
             if (isset($result['payment_url']) && !empty($result['payment_url'])) {
-                // Redirect User to Payment Gateway
                 header("Location: " . $result['payment_url']);
                 exit(); 
             } else {
-                // API Error
                 $message = "<div class='alert alert-danger'>Payment Gateway Error. Please try Cash.</div>";
             }
 
         } else {
-            // == NORMAL CASH / COD LOGIC ==
             $message = "<div class='alert alert-success alert-dismissible fade show'>Parcel Created! Tracking ID: <strong>$tracking_number</strong> <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
         }
 
@@ -342,14 +329,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             const weight = parseFloat(weightInput.value) || 0;
             const location = locationSelect.value;
 
-            // Determine Base Rate
+     
             let baseRate = (location === 'inside') ? rateInside : rateOutside;
-            
-            // Calculate Total
+       
             let total = weight * baseRate;
-
-            // Apply Minimum Charge Logic (If weight < 1kg, charge at least the base rate)
-            // This matches your PHP logic: if($calculated_price < $rate) $calculated_price = $rate;
             if (total < baseRate && weight > 0) {
                 total = baseRate;
             }

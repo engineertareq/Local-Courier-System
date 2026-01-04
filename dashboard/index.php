@@ -60,7 +60,11 @@ if (!empty($userPhone)) {
     $recent_orders = [];
 }
 ?>
-
+<?php if (isset($_GET['alert'])): ?>
+<div style="padding:10px; background:red; color:white;">
+    <?php echo htmlspecialchars($_GET['alert']); ?>
+</div>
+<?php endif; ?>
 <?php include "inc/header.php"?>
 
 <div class="dashboard-main-body">
@@ -142,7 +146,7 @@ if (!empty($userPhone)) {
                     </div>
                     <div>
                         <p class="fw-medium text-secondary-light mb-1">Total Spent</p>
-                        <h6 class="fw-bold mb-0 text-primary-light">$<?= number_format($stats['total_spent'], 2) ?></h6>
+                        <h6 class="fw-bold mb-0 text-primary-light">৳<?= number_format($stats['total_spent'], 2) ?></h6>
                     </div>
                 </div>
             </div>
@@ -208,7 +212,7 @@ if (!empty($userPhone)) {
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="text-primary-light fw-bold">$<?= number_format($order['price'], 2) ?></span>
+                                    <span class="text-primary-light fw-bold">৳<?= number_format($order['price'], 2) ?></span>
                                 </td>
                                 <td class="pe-24 text-end">
                                     <a href="track.php?id=<?= $order['tracking_number'] ?>" 

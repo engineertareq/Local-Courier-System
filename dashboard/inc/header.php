@@ -195,13 +195,13 @@
       </li>
       <li class="dropdown">
         <a href="javascript:void(0)">
-          <iconify-icon icon="mdi:courier-fast" class="menu-icon"></iconify-icon>
+          <iconify-icon icon="hugeicons:invoice" class="menu-icon"></iconify-icon>
           
           <span>Invoice</span>
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="invoices.php"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
+            <a href="invoices.php"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
               Invoice List</a>
           </li>
         </ul>

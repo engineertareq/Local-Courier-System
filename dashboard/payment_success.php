@@ -1,19 +1,14 @@
 <?php
-// payment_success.php
-require 'db.php'; // Ensure your database connection file is included correctly
+require 'db.php'; 
 
-// Aamarpay Sandbox Credentials (Must match what you used in the checkout page)
 define('STORE_ID', 'aamarpaytest');
 define('SIGNATURE_KEY', 'dbb74894e82415a2f7ff0ec3a97e4183');
 define('VERIFY_URL', 'https://sandbox.aamarpay.com/api/v1/trxcheck/request.php');
-
-// 1. Check if Aamarpay sent the Transaction ID (Tracking Number) back
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mer_txnid'])) {
 
-    $tracking_number = $_POST['mer_txnid']; // This is your Tracking Number
+    $tracking_number = $_POST['mer_txnid'];
 
-    // 2. VERIFY THE PAYMENT (Security Check)
-    // We call Aamarpay API to confirm this transaction is real
+
     $verify_url = VERIFY_URL . "?request_id=$tracking_number&store_id=" . STORE_ID . "&signature_key=" . SIGNATURE_KEY . "&type=json";
     
     $ch = curl_init();
@@ -24,19 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mer_txnid'])) {
     curl_close($ch);
 
     $result = json_decode($response, true);
-
-    // 3. IF VALID, UPDATE DATABASE
     if (isset($result['pay_status']) && $result['pay_status'] == 'Successful') {
         
         try {
-            // A. Update the Parcel Status to 'Paid'
-            // Ensure your 'parcels' table has 'updated_at'. If not, remove ", updated_at = NOW()"
             $sql = "UPDATE parcels SET payment_status = 'Paid', updated_at = NOW() WHERE tracking_number = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$tracking_number]);
 
-            // B. Add a log to parcel_history
-            // First, get the parcel_id using the tracking number
             $stmtGetId = $pdo->prepare("SELECT parcel_id FROM parcels WHERE tracking_number = ?");
             $stmtGetId->execute([$tracking_number]);
             $parcel = $stmtGetId->fetch();
@@ -44,8 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mer_txnid'])) {
             if ($parcel) {
                 $desc = "Payment Verified via Aamarpay. Trans ID: " . $tracking_number;
 
-                // CORRECTED SQL: Using 'timestamp' instead of 'created_at'
-                // We pass NULL for 'updated_by_user_id' since the system is doing this update
                 $historySql = "INSERT INTO parcel_history 
                               (parcel_id, status, description, location, updated_by_user_id, timestamp) 
                               VALUES (?, 'Payment Verified', ?, 'Online', NULL, NOW())";
@@ -54,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mer_txnid'])) {
                 $stmtHist->execute([$parcel['parcel_id'], $desc]);
             }
 
-            // C. Show Success Message (UI)
             echo '<!DOCTYPE html>
             <html lang="en">
             <head>

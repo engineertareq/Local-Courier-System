@@ -2,7 +2,7 @@
 require 'db.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// 1. SECURITY CHECK
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -12,7 +12,6 @@ $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['full_name'] ?? 'Rider';
 $message = "";
 
-// 2. FETCH DATA
 try {
     $stmt = $pdo->prepare("SELECT * FROM couriers WHERE user_id = ?");
     $stmt->execute([$user_id]);
@@ -22,7 +21,7 @@ try {
         die("<div class='p-4'><div class='alert alert-danger'>Access Denied. User ID $user_id is not a registered courier.</div></div>");
     }
 
-    // Get Active Tasks Count
+
     $stmtTask = $pdo->prepare("SELECT COUNT(*) FROM parcels WHERE assigned_courier_id = ? AND current_status NOT IN ('delivered', 'cancelled', 'returned')");
     $stmtTask->execute([$courier['courier_id']]);
     $active_tasks = $stmtTask->fetchColumn();
@@ -31,7 +30,6 @@ try {
     die("DB Error: " . $e->getMessage());
 }
 
-// 3. HANDLE FORM SUBMISSION
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_status = $_POST['status'];
     $lat = $_POST['latitude'];
@@ -40,8 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE couriers SET status = ?, current_latitude = ?, current_longitude = ? WHERE courier_id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$new_status, $lat, $lng, $courier['courier_id']]);
-    
-    // Refresh local data
+
     $courier['status'] = $new_status;
     $courier['current_latitude'] = $lat;
     $courier['current_longitude'] = $lng;
@@ -171,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label class="form-label fw-semibold text-primary-light text-sm mb-8">Location Sync</label>
                             <button type="button" class="btn btn-outline-primary w-100 radius-8 d-flex justify-content-center align-items-center gap-2" id="gpsBtn" onclick="getLocation()">
                                 <iconify-icon icon="solar:map-point-wave-bold" class="text-xl"></iconify-icon>
-                                <span id="gpsText">Fetch Current GPS</span>
+                                <span id="gpsText">Update Current Location</span>
                             </button>
                             <div id="locSuccess" class="text-success-600 text-sm fw-medium mt-8 text-center" style="display:none;">
                                 <iconify-icon icon="solar:check-circle-bold" class="align-middle me-1"></iconify-icon> Coordinates Ready

@@ -6,10 +6,9 @@ include 'inc/header.php';
 $tracking_data = null;
 $history_logs = [];
 $search_performed = false;
-$access_denied = false; // New flag for permission check
+$access_denied = false; 
 
-// 1. GET LOGGED-IN USER'S PHONE NUMBER
-// We fetch this fresh from the DB to ensure accuracy
+
 $currentUserPhone = '';
 if (isset($_SESSION['user_id'])) {
     $stmtUser = $pdo->prepare("SELECT phone FROM users WHERE user_id = ?");
@@ -18,28 +17,21 @@ if (isset($_SESSION['user_id'])) {
     $currentUserPhone = $userRow['phone'] ?? '';
 }
 
-// 2. GET THE SEARCH TERM
 $search_term = $_GET['id'] ?? $_GET['tracking_number'] ?? null;
 
 if ($search_term) {
     $search_performed = true;
     $term = trim($search_term);
 
-    // 3. SMART QUERY (Search by Tracking Number OR ID)
     $stmt = $pdo->prepare("SELECT * FROM parcels WHERE tracking_number = ? OR parcel_id = ?");
     $stmt->execute([$term, $term]);
     $found_parcel = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // 4. SECURITY CHECK: PHONE NUMBER MATCH
     if ($found_parcel) {
-        // Check if User's Phone matches Sender OR Receiver phone
-        // We use loose comparison (==) to handle format differences (e.g. 017 vs +88017)
-        // For strict security, ensure phone formats are sanitized in DB.
         
         if (!empty($currentUserPhone) && 
            ($found_parcel['sender_phone'] == $currentUserPhone || $found_parcel['receiver_phone'] == $currentUserPhone)) {
-            
-            // ACCESS GRANTED: Assign data and fetch history
+      
             $tracking_data = $found_parcel;
 
             $stmtHistory = $pdo->prepare("SELECT * FROM parcel_history WHERE parcel_id = ? ORDER BY timestamp DESC");
@@ -47,13 +39,11 @@ if ($search_term) {
             $history_logs = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
 
         } else {
-            // ACCESS DENIED: Parcel exists, but user isn't the owner
             $access_denied = true;
         }
     }
 }
 
-// Helper function for status colors
 function getStatusColor($status) {
     switch (strtolower($status)) {
         case 'delivered': return 'success';
@@ -66,7 +56,6 @@ function getStatusColor($status) {
 ?>
 
 <style>
-    /* Custom Timeline CSS */
     .tracking-timeline { position: relative; padding-left: 0; list-style: none; }
     .tracking-item { position: relative; padding-bottom: 2.5rem; padding-left: 2.5rem; border-left: 2px dashed #e0e0e0; }
     .tracking-item:last-child { border-left: 0; padding-bottom: 0; }
